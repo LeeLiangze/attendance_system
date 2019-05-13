@@ -3,7 +3,7 @@
 return array (
   //============================== New strings to translate ==============================//
   // Defined in file C:\\wamp\\www\\attendize\\resources\\views\\ManageEvent\\Tickets.blade.php
-  'on_sale' => 'On Sale',
+  'on_sale' => 'On Shelf',
   //==================================== Translations ====================================//
   'attendee_ref' => 'Attendee Ref.',
   'coupon_codes' => 'Coupon Codes',

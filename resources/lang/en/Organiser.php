@@ -69,5 +69,5 @@ return array (
   'select_an_organiser' => 'Select An Organiser',
   'select_organiser' => 'Select Organiser',
   'text_color' => 'Text Color',
-  'tickets_sold' => 'Tickets Sold',
+  'tickets_sold' => 'Tickets Give Out',
 );

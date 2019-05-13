@@ -115,8 +115,7 @@
                                     {{ $order->attendees()->withTrashed()->count() }} {{ @trans("Order.tickets") }}
                             </p>
                             <h6>
-                                {{ $order->created_at->diffForHumans() }} &bull; <span
-                                        style="color: green;">{{ $order->event->currency_symbol }}{{ $order->amount }}</span>
+                                {{ $order->created_at->diffForHumans() }}
                             </h6>
                         </li>
                     @endforeach

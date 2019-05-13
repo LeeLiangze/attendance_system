@@ -47,7 +47,7 @@ return array (
   'revenue' => 'Revenue',
   'save_changes' => 'Save Changes',
   'showing_num_of_orders' => 'Showing :0 orders out of :1 Total',
-  'tickets_sold' => 'Tickets Sold',
+  'tickets_sold' => 'Tickets Give Out',
   'venue_name' => 'Venue Name',
   'venue_name_placeholder' => 'E.g: The Crab Shack',
   'vis_hide' => 'Hide event from the public.',

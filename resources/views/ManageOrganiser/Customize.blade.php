@@ -95,39 +95,6 @@
                                                 'rows' => 4
                                                 ))  !!}
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <p class="control-label">{!! trans("Organiser.organiser_tax_prompt") !!}</p>
-                                <label for="Yes" class="control-label" id="charge_yes">{!! trans("Organiser.yes") !!}</label>
-                                <input id="charge_yes" name="charge_tax" type="radio" value="1" {{ $organiser->charge_tax == 1 ? 'checked' : '' }}>
-                                <label for="No" class="control-label" id="charge_no">{!! trans("Organiser.no") !!}</label>
-                                <input id="charge_yes" name="charge_tax" type="radio" value="0" {{ $organiser->charge_tax == 0 ? 'checked' : '' }}>
-                            </div>
-                        </div>
-                        <div id="tax_fields">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    {!! Form::label('tax_id', trans("Organiser.organiser_tax_id"), array('class'=>'control-label required')) !!}
-                                    {!! Form::text('tax_id', Input::old('tax_id'), array('class'=>'form-control', 'placeholder'=>'Tax ID')) !!}
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    {!! Form::label('tax_name', trans("Organiser.organiser_tax_name"), array('class'=>'control-label required')) !!}
-                                    {!! Form::text('tax_name', Input::old('tax_name'), array('class'=>'form-control', 'placeholder'=>'Tax name')) !!}
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    {!! Form::label('tax_value', trans("Organiser.organiser_tax_value"), array('class'=>'control-label required')) !!}
-                                    {!! Form::text('tax_value', Input::old('tax_value'), array('class'=>'form-control', 'placeholder'=>'Tax Value')) !!}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="form-group">
                         {!! Form::label('google_analytics_code', trans("Organiser.google_analytics_code"), array('class'=>'control-label')) !!}
                         {!!  Form::text('google_analytics_code', Input::old('google_analytics_code'),
@@ -136,36 +103,6 @@
                                                 'placeholder' => trans("Organiser.google_analytics_code_placeholder"),
                                                 ))
                         !!}
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                {!! Form::label('facebook', trans("Organiser.organiser_facebook"), array('class'=>'control-label ')) !!}
-
-                                <div class="input-group">
-                                    <span style="background-color: #eee;" class="input-group-addon">facebook.com/</span>
-                                    {!!  Form::text('facebook', Input::old('facebook'),
-                                                    array(
-                                                    'class'=>'form-control ',
-                                                    'placeholder'=> trans("Organiser.organiser_username_facebook_placeholder")
-                                                    ))  !!}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                {!! Form::label('twitter', trans("Organiser.organiser_twitter"), array('class'=>'control-label ')) !!}
-
-                                <div class="input-group">
-                                    <span style="background-color: #eee;" class="input-group-addon">twitter.com/</span>
-                                    {!!  Form::text('twitter', Input::old('twitter'),
-                                             array(
-                                             'class'=>'form-control ',
-                                                    'placeholder'=> trans("Organiser.organiser_username_twitter_placeholder")
-                                             ))  !!}
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     @if(is_file($organiser->logo_path))
                         <div class="form-group">

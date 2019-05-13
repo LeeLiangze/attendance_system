@@ -30,12 +30,12 @@
                 </div>
             </li>
 
-            <li>
-                <div class="section">
-                    <h4 class="nm">{{{money($event->sales_volume + $event->organiser_fees_volume, $event->currency)}}}</h4>
-                    <p class="nm text-muted">@lang("Event.revenue")</p>
-                </div>
-            </li>
+            {{--<li>--}}
+                {{--<div class="section">--}}
+                    {{--<h4 class="nm">{{{money($event->sales_volume + $event->organiser_fees_volume, $event->currency)}}}</h4>--}}
+                    {{--<p class="nm text-muted">@lang("Event.revenue")</p>--}}
+                {{--</div>--}}
+            {{--</li>--}}
         </ul>
     </div>
     <div class="panel-footer">

@@ -37,7 +37,7 @@
         margin-top: 25px;
         background-color: #FCFCFC;
         line-height: 30px;
-        text-shadow: 0 1px 0 rgba(255,255,255,.9);
+        text-shadow: 0 1px 0 rgba(255, 255, 255, .9);
         color: #656565;
         overflow: hidden;
     }
@@ -68,9 +68,9 @@
             <div class="content event_view_order">
 
                 @if($event->post_order_display_message)
-                <div class="alert alert-dismissable alert-info">
-                    {{ nl2br(e($event->post_order_display_message)) }}
-                </div>
+                    <div class="alert alert-dismissable alert-info">
+                        {{ nl2br(e($event->post_order_display_message)) }}
+                    </div>
                 @endif
 
                 <div class="order_details well">
@@ -81,13 +81,6 @@
 
                         <div class="col-sm-4 col-xs-6">
                             <b>@lang("Public_ViewEvent.last_name")</b><br> {{$order->last_name}}
-                        </div>
-
-                        <div class="col-sm-4 col-xs-6">
-                            <b>@lang("Public_ViewEvent.amount")</b><br> {{$order->event->currency_symbol}}{{number_format($order->total_amount, 2)}}
-                            @if($event->organiser->charge_tax)
-                            <small>{{ $orderService->getVatFormattedInBrackets() }}</small>
-                            @endif
                         </div>
 
                         <div class="col-sm-4 col-xs-6">
@@ -104,159 +97,6 @@
                     </div>
                 </div>
 
-
-                    @if(!$order->is_payment_received)
-                        <h3>
-                            @lang("Public_ViewEvent.payment_instructions")
-                        </h3>
-                    <div class="alert alert-info">
-                        @lang("Public_ViewEvent.order_awaiting_payment")
-                    </div>
-                    <div class="offline_payment_instructions well">
-                        {!! Markdown::parse($event->offline_payment_instructions) !!}
-                    </div>
-
-                    @endif
-
-                <h3>
-                    @lang("Public_ViewEvent.order_items")
-                </h3>
-
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @lang("Public_ViewEvent.ticket")
-                                </th>
-                                <th>
-                                    @lang("Public_ViewEvent.quantity_full")
-                                </th>
-                                <th>
-                                    @lang("Public_ViewEvent.price")
-                                </th>
-                                <th>
-                                    @lang("Public_ViewEvent.booking_fee")
-                                </th>
-                                <th>
-                                    @lang("Public_ViewEvent.total")
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($order->orderItems as $order_item)
-                                <tr>
-                                    <td>
-                                        {{$order_item->title}}
-                                    </td>
-                                    <td>
-                                        {{$order_item->quantity}}
-                                    </td>
-                                    <td>
-                                        @if((int)ceil($order_item->unit_price) == 0)
-                                            @lang("Public_ViewEvent.free")
-                                        @else
-                                       {{money($order_item->unit_price, $order->event->currency)}}
-                                        @endif
-
-                                    </td>
-                                    <td>
-                                        @if((int)ceil($order_item->unit_price) == 0)
-                                        -
-                                        @else
-                                        {{money($order_item->unit_booking_fee, $order->event->currency)}}
-                                        @endif
-
-                                    </td>
-                                    <td>
-                                        @if((int)ceil($order_item->unit_price) == 0)
-                                            @lang("Public_ViewEvent.free")
-                                        @else
-                                        {{money(($order_item->unit_price + $order_item->unit_booking_fee) * ($order_item->quantity), $order->event->currency)}}
-                                        @endif
-
-                                    </td>
-                                </tr>
-                            @endforeach
-                            <tr>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                    <b>@lang("Public_ViewEvent.sub_total")</b>
-                                </td>
-                                <td colspan="2">
-                                    {{ $orderService->getOrderTotalWithBookingFee(true) }}
-                                </td>
-                            </tr>
-                            @if($event->organiser->charge_tax)
-                            <tr>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                    {{$event->organiser->tax_name}}
-                                </td>
-                                <td colspan="2">
-                                    {{ $orderService->getTaxAmount(true) }}
-                                </td>
-                            </tr>
-                            @endif
-                            <tr>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                    <b>Total</b>
-                                </td>
-                                <td colspan="2">
-                                   {{ $orderService->getGrandTotal(true) }}
-                                </td>
-                            </tr>
-                            @if($order->is_refunded || $order->is_partially_refunded)
-                                <tr>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        <b>@lang("Public_ViewEvent.refunded_amount")</b>
-                                    </td>
-                                    <td colspan="2">
-                                        {{money($order->amount_refunded, $order->event->currency)}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        <b>@lang("Public_ViewEvent.total")</b>
-                                    </td>
-                                    <td colspan="2">
-                                        {{money($order->total_amount - $order->amount_refunded, $order->event->currency)}}
-                                    </td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
-
-                </div>
-
                 <h3>
                     @lang("Public_ViewEvent.order_attendees")
                 </h3>
@@ -264,7 +104,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover table-striped">
                         <tbody>
-                            @foreach($order->attendees as $attendee)
+                        @foreach($order->attendees as $attendee)
                             <tr>
                                 <td>
                                     {{$attendee->first_name}}
@@ -280,7 +120,7 @@
                                     @endif
                                 </td>
                             </tr>
-                            @endforeach
+                        @endforeach
                         </tbody>
                     </table>
                 </div>

@@ -13,7 +13,7 @@
         }
     </style>
     <script>
-    @include('ManageOrganiser.Partials.OrganiserCreateAndEditJS')
+        @include('ManageOrganiser.Partials.OrganiserCreateAndEditJS')
     </script>
 
 @stop
@@ -64,67 +64,6 @@
                                     'placeholder'=>trans("Organiser.organiser_description_placeholder"),
                                     'rows' => 4
                                     ))  !!}
-                    </div>
-                    <div class="form-group">
-                        <p class="control-label">{!! trans("Organiser.organiser_tax_prompt") !!}</p>
-                        {!! Form::label('Yes', 'Yes', array('class'=>'control-label', 'id' => 'charge_yes')) !!}
-                        {{ Form::radio('charge_tax', '1' , false) }}
-                        {!! Form::label('No', 'No', array('class'=>'control-label','id' => 'charge_no')) !!}
-                        {{ Form::radio('charge_tax', '0' , true) }}
-                    </div>
-
-                    <div id="tax_fields" class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                {!! Form::label('tax_id', trans("Organiser.organiser_tax_id"), array('class'=>'control-label required')) !!}
-                                {!! Form::text('tax_id', Input::old('tax_id'), array('class'=>'form-control', 'placeholder'=>'Tax ID'))  !!}
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                {!! Form::label('tax_name', trans("Organiser.organiser_tax_name"), array('class'=>'control-label required')) !!}
-                                {!! Form::text('tax_name', Input::old('tax_name'), array('class'=>'form-control', 'placeholder'=>'Tax name'))  !!}
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                {!! Form::label('tax_value', trans("Organiser.organiser_tax_value"), array('class'=>'control-label required')) !!}
-                                {!! Form::text('tax_value', Input::old('tax_value'), array('class'=>'form-control', 'placeholder'=>'Tax Value'))  !!}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                {!! Form::label('facebook', trans("Organiser.organiser_facebook"), array('class'=>'control-label ')) !!}
-
-                                <div class="input-group">
-                                    <span style="background-color: #eee;" class="input-group-addon">facebook.com/</span>
-                                    {!!  Form::text('facebook', Input::old('facebook'),
-                                                    array(
-                                                    'class'=>'form-control ',
-                                                    'placeholder'=>trans("Organiser.organiser_username_facebook_placeholder")
-                                                    ))  !!}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                {!! Form::label('twitter', trans("Organiser.organiser_twitter"), array('class'=>'control-label ')) !!}
-
-                                <div class="input-group">
-                                    <span style="background-color: #eee;" class="input-group-addon">twitter.com/</span>
-                                    {!!  Form::text('twitter', Input::old('twitter'),
-                                             array(
-                                             'class'=>'form-control ',
-                                                    'placeholder'=>trans("Organiser.organiser_username_twitter_placeholder")
-                                             ))  !!}
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="form-group">
