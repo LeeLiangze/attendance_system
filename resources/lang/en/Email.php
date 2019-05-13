@@ -5,7 +5,7 @@
 
 return array (
   //==================================== Translations ====================================//
-  'attendize_register' => 'Thank you for registering for Attendize',
+  'attendize_register' => 'Thank you for registering for Arup Attendance System',
   'invite_user' => ':name added you to an :app account.',
   'message_regarding_event' => 'Message Regarding: :event',
   'organiser_copy' => '[Organiser Copy]',

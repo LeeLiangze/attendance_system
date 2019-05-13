@@ -32,11 +32,11 @@
                         <button type="submit" class="btn btn-block btn-success">@lang("User.login")</button>
                     </div>
 
-                    @if(Utils::isAttendize())
-                    <div class="signup">
-                        <span>@lang("User.dont_have_account_button", ["url"=> route('showSignup')])</span>
-                    </div>
-                    @endif
+                    {{--@if(Utils::isAttendize())--}}
+                    {{--<div class="signup">--}}
+                        {{--<span>@lang("User.dont_have_account_button", ["url"=> route('showSignup')])</span>--}}
+                    {{--</div>--}}
+                    {{--@endif--}}
                 </div>
             </div>
         </div>

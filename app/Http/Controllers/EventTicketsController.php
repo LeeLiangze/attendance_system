@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Log;
 
 /*
-  Attendize.com   - Event Management & Ticketing
+  arup.com   - Event Management & Ticketing
  */
 
 class EventTicketsController extends MyBaseController
@@ -103,7 +103,7 @@ class EventTicketsController extends MyBaseController
         $ticket->quantity_available = !$request->get('quantity_available') ? null : $request->get('quantity_available');
         $ticket->start_sale_date = $request->get('start_sale_date');
         $ticket->end_sale_date = $request->get('end_sale_date');
-        $ticket->price = $request->get('price');
+        $ticket->price = 0;
         $ticket->min_per_person = $request->get('min_per_person');
         $ticket->max_per_person = $request->get('max_per_person');
         $ticket->description = strip_tags($request->get('description'));
@@ -237,7 +237,7 @@ class EventTicketsController extends MyBaseController
 
         $ticket->title = $request->get('title');
         $ticket->quantity_available = !$request->get('quantity_available') ? null : $request->get('quantity_available');
-        $ticket->price = $request->get('price');
+        $ticket->price = 0;
         $ticket->start_sale_date = $request->get('start_sale_date');
         $ticket->end_sale_date = $request->get('end_sale_date');
         $ticket->description = $request->get('description');

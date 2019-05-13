@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 /*
-  Attendize.com   - Event Management & Ticketing
+  arup.com   - Event Management & Ticketing
  */
 
 /**

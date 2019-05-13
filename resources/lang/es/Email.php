@@ -1,7 +1,7 @@
 <?php
 
 return array(
-    'attendize_register'      => 'Gracias por registrarte en Attendize',
+    'attendize_register'      => 'Gracias por registrarte en Arup Attendance System',
     'invite_user'             => ':name te ha añadido a la cuenta :app.',
     'message_regarding_event' => 'Mensaje con respecto a: :event',
     'organiser_copy'          => '[Copia del organizador]',

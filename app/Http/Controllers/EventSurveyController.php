@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use JavaScript;
 
 /*
-  Attendize.com   - Event Management & Ticketing
+  arup.com   - Event Management & Ticketing
  */
 
 class EventSurveyController extends MyBaseController

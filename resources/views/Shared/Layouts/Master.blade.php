@@ -1,18 +1,9 @@
 <!DOCTYPE html>
 <html lang="{{ Lang::locale() }}">
 <head>
-    <!--
-              _   _                 _ _
-         /\  | | | |               | (_)
-        /  \ | |_| |_ ___ _ __   __| |_ _______   ___ ___  _ __ ___
-       / /\ \| __| __/ _ \ '_ \ / _` | |_  / _ \ / __/ _ \| '_ ` _ \
-      / ____ \ |_| ||  __/ | | | (_| | |/ /  __/| (_| (_) | | | | | |
-     /_/    \_\__|\__\___|_| |_|\__,_|_/___\___(_)___\___/|_| |_| |_|
-
-    -->
     <title>
         @section('title')
-            Attendize -
+            Arup -
         @show
     </title>
 
@@ -83,8 +74,8 @@
                            href="javascript:void(0);"><span class="icon ico-cog"></span>@lang("Top.account_settings")</a></li>
 
 
-                    <li class="divider"></li>
-                    <li><a target="_blank" href="https://github.com/Attendize/Attendize/issues/new?body=Version%20{{ config('attendize.version') }}"><span class="icon ico-megaphone"></span>@lang("Top.feedback_bug_report")</a></li>
+                    {{--<li class="divider"></li>--}}
+                    {{--<li><a target="_blank" href="#"><span class="icon ico-megaphone"></span>@lang("Top.feedback_bug_report")</a></li>--}}
                     <li class="divider"></li>
                     <li><a href="{{route('logout')}}"><span class="icon ico-exit"></span>@lang("Top.sign_out")</a></li>
                 </ul>

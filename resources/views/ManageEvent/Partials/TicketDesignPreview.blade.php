@@ -41,8 +41,8 @@
             @lang("Ticket.demo_order_ref")
             <h4>@lang("Ticket.attendee_ref")</h4>
             @lang("Ticket.demo_attendee_ref")
-            <h4>@lang("Ticket.price")</h4>
-            @lang("Ticket.demo_price")
+            {{--<h4>@lang("Ticket.price")</h4>--}}
+            {{--@lang("Ticket.demo_price")--}}
         </div>
     </div>
 

@@ -21,18 +21,11 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    {!! Form::label('price', trans("ManageEvent.ticket_price"), array('class'=>'control-label required')) !!}
-                                    {!!  Form::text('price', Input::old('price'),
+                                    {!!  Form::hidden('price', Input::old('price'),
                                                 array(
                                                 'class'=>'form-control',
                                                 'placeholder'=>trans("ManageEvent.price_placeholder")
                                                 ))  !!}
-
-
-                                </div>
-                            </div>
 
                             <div class="col-sm-6">
                                 <div class="form-group">

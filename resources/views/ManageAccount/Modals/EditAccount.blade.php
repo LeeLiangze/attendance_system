@@ -145,7 +145,7 @@
                                 </h4>
                                 <p>
                                     @if($version_info['is_outdated'])
-                                        @lang("ManageAccount.version_out_of_date", ["installed" => $version_info['installed'], "latest"=> $version_info['latest'], "url"=>"https://attendize.com/documentation.php#download"]).
+                                        @lang("ManageAccount.version_out_of_date", ["installed" => $version_info['installed'], "latest"=> $version_info['latest'], "url"=>"#"]).
                                     @else
                                         @lang("ManageAccount.version_up_to_date", ["installed" => $version_info['installed']])
                                     @endif

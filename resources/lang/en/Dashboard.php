@@ -21,6 +21,6 @@ return array (
     'share_event' => 'Share Event',
     'this_event_is_on_now' => 'This event is on now',
     'ticket_sales_volume' => 'Ticket Sales Volume',
-    'tickets_sold' => 'Tickets Sold',
+    'tickets_sold' => 'Tickets Give Out',
     'website_embed_code' => 'Website Embed Code',
 );

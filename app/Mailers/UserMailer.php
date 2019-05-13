@@ -1,7 +1,7 @@
 <?php
 
 /*
-  Attendize.com   - Event Management & Ticketing
+  arup.com   - Event Management & Ticketing
  */
 
 /**
