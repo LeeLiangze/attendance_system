@@ -183,13 +183,13 @@ $factory->define(App\Models\Event::class, function (Faker\Generator $faker) {
         'pre_order_display_message'  => $faker->text,
         'post_order_display_message' => $faker->text,
         'social_share_text'          => 'Check Out [event_title] - [event_url]',
-        'social_show_facebook'       => true,
-        'social_show_linkedin'       => true,
-        'social_show_twitter'        => true,
-        'social_show_email'          => true,
-        'social_show_googleplus'     => true,
+        'social_show_facebook'       => false,
+        'social_show_linkedin'       => false,
+        'social_show_twitter'        => false,
+        'social_show_email'          => false,
+        'social_show_googleplus'     => false,
         'location_is_manual'         => 0,
-        'is_live'                    => false
+        'is_live'                    => true
     ];
 });
 

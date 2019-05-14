@@ -702,7 +702,7 @@ class EventCheckoutController extends Controller
     }
 
     /**
-     * Show the order details page
+     * Show the register form page
      *
      * @param Request $request
      * @param $order_reference

@@ -31,9 +31,7 @@
                         <!-- tab -->
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#general_account" data-toggle="tab">@lang("ManageAccount.general")</a></li>
-                            <li><a href="#payment_account" data-toggle="tab">@lang("ManageAccount.payment")</a></li>
                             <li><a href="#users_account" data-toggle="tab">@lang("ManageAccount.users")</a></li>
-                            <li><a href="#about" data-toggle="tab">@lang("ManageAccount.about")</a></li>
                         </ul>
                         <div class="tab-content panel">
                             <div class="tab-pane active" id="general_account">
@@ -70,20 +68,6 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            {!! Form::label('timezone_id', trans("ManageAccount.timezone"), array('class'=>'control-label required')) !!}
-                                            {!! Form::select('timezone_id', $timezones, $account->timezone_id, ['class' => 'form-control']) !!}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            {!! Form::label('currency_id', trans("ManageAccount.default_currency"), array('class'=>'control-label required')) !!}
-                                            {!! Form::select('currency_id', $currencies, $account->currency_id, ['class' => 'form-control']) !!}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-md-12">
                                         <div class="panel-footer">
                                             {!! Form::submit(trans("ManageAccount.save_account_details_submit"), ['class' => 'btn btn-success pull-right']) !!}
@@ -92,11 +76,6 @@
                                 </div>
 
                                 {!! Form::close() !!}
-                            </div>
-                            <div class="tab-pane " id="payment_account">
-
-                                @include('ManageAccount.Partials.PaymentGatewayOptions')
-
                             </div>
                             <div class="tab-pane" id="users_account">
                                 {!! Form::open(array('url' => route('postInviteUser'), 'class' => 'ajax ')) !!}

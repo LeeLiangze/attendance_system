@@ -140,12 +140,12 @@ class EventController extends MyBaseController
             $event->post_order_display_message = $defaults->post_order_display_message;
             $event->offline_payment_instructions = $defaults->offline_payment_instructions;
             $event->enable_offline_payments = $defaults->enable_offline_payments;
-            $event->social_show_facebook = $defaults->social_show_facebook;
-            $event->social_show_linkedin = $defaults->social_show_linkedin;
-            $event->social_show_twitter = $defaults->social_show_twitter;
-            $event->social_show_email = $defaults->social_show_email;
-            $event->social_show_googleplus = $defaults->social_show_googleplus;
-            $event->social_show_whatsapp = $defaults->social_show_whatsapp;
+            $event->social_show_facebook = 0;
+            $event->social_show_linkedin = 0;
+            $event->social_show_twitter = 0;
+            $event->social_show_email = 0;
+            $event->social_show_googleplus = 0;
+            $event->social_show_whatsapp = 0;
             $event->is_1d_barcode_enabled = $defaults->is_1d_barcode_enabled;
             $event->ticket_border_color = $defaults->ticket_border_color;
             $event->ticket_bg_color = $defaults->ticket_bg_color;
@@ -219,8 +219,8 @@ class EventController extends MyBaseController
             ]);
         }
 
-        $event->is_live = $request->get('is_live');
-        $event->currency_id = $request->get('currency_id');
+        $event->is_live = 1;
+        $event->currency_id = 17;
         $event->title = $request->get('title');
         $event->description = strip_tags($request->get('description'));
         $event->start_date = $request->get('start_date');

@@ -60,18 +60,6 @@
                     {!! Form::model($organiser, array('url' => route('postEditOrganiser', ['organiser_id' => $organiser->id]), 'class' => 'ajax')) !!}
 
                     <div class="form-group">
-                        {!! Form::label('enable_organiser_page', trans("Organiser.enable_public_organiser_page"), array('class'=>'control-label required')) !!}
-                        {!!  Form::select('enable_organiser_page', [
-                        '1' => trans("Organiser.make_organiser_public"),
-                        '0' => trans("Organiser.make_organiser_hidden")],Input::old('enable_organiser_page'),
-                                                    array(
-                                                    'class'=>'form-control'
-                                                    ))  !!}
-                        <div class="help-block">
-                            @lang("Organiser.organiser_page_visibility_text")
-                        </div>
-                    </div>
-                    <div class="form-group">
                         {!! Form::label('name', trans("Organiser.organiser_name"), array('class'=>'required control-label ')) !!}
                         {!!  Form::text('name', Input::old('name'),
                                                 array(
