@@ -97,35 +97,6 @@
                     </div>
                 </div>
 
-                <h3>
-                    @lang("Public_ViewEvent.order_attendees")
-                </h3>
-
-                <div class="table-responsive">
-                    <table class="table table-hover table-striped">
-                        <tbody>
-                        @foreach($order->attendees as $attendee)
-                            <tr>
-                                <td>
-                                    {{$attendee->first_name}}
-                                    {{$attendee->last_name}}
-                                    (<a href="mailto:{{$attendee->email}}">{{$attendee->email}}</a>)
-                                </td>
-                                <td>
-                                    {{{$attendee->ticket->title}}}
-                                </td>
-                                <td>
-                                    @if($attendee->is_cancelled)
-                                        @lang("Public_ViewEvent.attendee_cancelled")
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-
-
             </div>
         </div>
     </div>

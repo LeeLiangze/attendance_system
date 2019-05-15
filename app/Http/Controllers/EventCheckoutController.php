@@ -316,137 +316,7 @@ class EventCheckoutController extends Controller
         //Add the request data to a session in case payment is required off-site
         session()->push('ticket_order_' . $event_id . '.request_data', $request->except(['card-number', 'card-cvc']));
 
-        $orderRequiresPayment = $ticket_order['order_requires_payment'];
-
-        if ($orderRequiresPayment && $request->get('pay_offline') && $event->enable_offline_payments) {
-            return $this->completeOrder($event_id);
-        }
-
-        if (!$orderRequiresPayment) {
-            return $this->completeOrder($event_id);
-        }
-
-        try {
-            //more transation data being put in here.
-            $transaction_data = [];
-            if (config('attendize.enable_dummy_payment_gateway') == TRUE) {
-                $formData = config('attendize.fake_card_data');
-                $transaction_data = [
-                    'card' => $formData
-                ];
-
-                $gateway = Omnipay::create('Dummy');
-                $gateway->initialize();
-
-            } else {
-                $gateway = Omnipay::create($ticket_order['payment_gateway']->name);
-                $gateway->initialize($ticket_order['account_payment_gateway']->config + [
-                        'testMode' => config('attendize.enable_test_payments'),
-                    ]);
-            }
-
-            $orderService = new OrderService($ticket_order['order_total'], $ticket_order['total_booking_fee'], $event);
-            $orderService->calculateFinalCosts();
-
-            $transaction_data += [
-                    'amount'      => $orderService->getGrandTotal(),
-                    'currency'    => $event->currency->code,
-                    'description' => 'Order for customer: ' . $request->get('order_email'),
-            ];
-
-            //TODO: class with an interface that builds the transaction data.
-            switch ($ticket_order['payment_gateway']->id) {
-                case config('attendize.payment_gateway_dummy'):
-                    $token = uniqid();
-                    $transaction_data += [
-                        'token'         => $token,
-                        'receipt_email' => $request->get('order_email'),
-                        'card' => $formData
-                    ];
-                    break;
-                case config('attendize.payment_gateway_paypal'):
-
-                    $transaction_data += [
-                        'cancelUrl' => route('showEventCheckoutPaymentReturn', [
-                            'event_id'             => $event_id,
-                            'is_payment_cancelled' => 1
-                        ]),
-                        'returnUrl' => route('showEventCheckoutPaymentReturn', [
-                            'event_id'              => $event_id,
-                            'is_payment_successful' => 1
-                        ]),
-                        'brandName' => isset($ticket_order['account_payment_gateway']->config['brandingName'])
-                            ? $ticket_order['account_payment_gateway']->config['brandingName']
-                            : $event->organiser->name
-                    ];
-                    break;
-                case config('attendize.payment_gateway_stripe'):
-                    $token = $request->get('stripeToken');
-                    $transaction_data += [
-                        'token'         => $token,
-                        'receipt_email' => $request->get('order_email'),
-                    ];
-                    break;
-                default:
-                    Log::error('No payment gateway configured.');
-                    return response()->json([
-                        'status'  => 'error',
-                        'message' => 'No payment gateway configured.'
-                    ]);
-                    break;
-            }
-
-            $transaction = $gateway->purchase($transaction_data);
-
-            $response = $transaction->send();
-
-            if ($response->isSuccessful()) {
-
-                session()->push('ticket_order_' . $event_id . '.transaction_id',
-                    $response->getTransactionReference());
-
-                return $this->completeOrder($event_id);
-
-            } elseif ($response->isRedirect()) {
-
-                /*
-                 * As we're going off-site for payment we need to store some data in a session so it's available
-                 * when we return
-                 */
-                session()->push('ticket_order_' . $event_id . '.transaction_data', $transaction_data);
-                Log::info("Redirect url: " . $response->getRedirectUrl());
-
-                $return = [
-                    'status'       => 'success',
-                    'redirectUrl'  => $response->getRedirectUrl(),
-                    'message'      => 'Redirecting to ' . $ticket_order['payment_gateway']->provider_name
-                ];
-
-                // GET method requests should not have redirectData on the JSON return string
-                if($response->getRedirectMethod() == 'POST') {
-                    $return['redirectData'] = $response->getRedirectData();
-                }
-
-                return response()->json($return);
-
-            } else {
-                // display error to customer
-                return response()->json([
-                    'status'  => 'error',
-                    'message' => $response->getMessage(),
-                ]);
-            }
-        } catch (\Exeption $e) {
-            Log::error($e);
-            $error = 'Sorry, there was an error processing your payment. Please try again.';
-        }
-
-        if ($error) {
-            return response()->json([
-                'status'  => 'error',
-                'message' => $error,
-            ]);
-        }
+        return $this->completeOrder($event_id);
 
     }
 
@@ -529,26 +399,16 @@ class EventCheckoutController extends Controller
             $order->last_name = strip_tags($request_data['order_last_name']);
             $order->email = $request_data['order_email'];
             $order->order_status_id = isset($request_data['pay_offline']) ? config('attendize.order_awaiting_payment') : config('attendize.order_complete');
-            $order->amount = $ticket_order['order_total'];
-            $order->booking_fee = $ticket_order['booking_fee'];
-            $order->organiser_booking_fee = $ticket_order['organiser_booking_fee'];
+            $order->amount = 0;
+            $order->booking_fee = 0;
+            $order->organiser_booking_fee = 0;
             $order->discount = 0.00;
             $order->account_id = $event->account->id;
             $order->event_id = $ticket_order['event_id'];
-            $order->is_payment_received = isset($request_data['pay_offline']) ? 0 : 1;
+            $order->is_payment_received = 1;
 
-            // Calculating grand total including tax
-            $orderService = new OrderService($ticket_order['order_total'], $ticket_order['total_booking_fee'], $event);
-            $orderService->calculateFinalCosts();
-
-            $order->taxamt = $orderService->getTaxAmount();
+            $order->taxamt = 0;
             $order->save();
-
-            /*
-             * Update the event sales volume
-             */
-            $event->increment('sales_volume', $orderService->getGrandTotal());
-            $event->increment('organiser_fees_volume', $order->organiser_booking_fee);
 
             /*
              * Update affiliates stats stats
