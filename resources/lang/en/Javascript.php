@@ -3,7 +3,7 @@
 return [
     "processing" => "Just a second...",
     "time_run_out" => "You have run out of time! You will have to restart the order process.",
-    "just_2_minutes" => "You only have 2 minutes left to complete this order!",
+    "just_2_minutes" => "You only have 2 minutes left to complete this register!",
     "whoops" => 'Whoops!, it looks like the server returned an error.
                    Please try again, or contact the webmaster if the problem persists.',
     "whoops2" => 'Something went wrong! Refresh the page and try again',

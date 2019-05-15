@@ -71,7 +71,7 @@ return [
   'ticket_price' => 'Ticket Price',
   'tickets' => 'Ticket(s)',
   'tickets_are_currently_unavailable' => 'Tickets are currently unavailable',
-  'time' => 'Please note you only have :time to complete this transaction before your tickets are re-released.',
+  'time' => 'Please note you only have :time to complete this register before your tickets are re-released.',
   'total' => 'Total',
   'your_email_address' => 'Your e-mail address',
   'your_information' => 'Your information',

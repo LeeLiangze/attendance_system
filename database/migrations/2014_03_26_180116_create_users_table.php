@@ -215,15 +215,15 @@ class CreateUsersTable extends Migration
             $t->text('post_order_display_message')->nullable();
 
             $t->text('social_share_text')->nullable();
-            $t->boolean('social_show_facebook')->default(true);
-            $t->boolean('social_show_linkedin')->default(true);
-            $t->boolean('social_show_twitter')->default(true);
-            $t->boolean('social_show_email')->default(true);
-            $t->boolean('social_show_googleplus')->default(true);
+            $t->boolean('social_show_facebook')->default(false);
+            $t->boolean('social_show_linkedin')->default(false);
+            $t->boolean('social_show_twitter')->default(false);
+            $t->boolean('social_show_email')->default(false);
+            $t->boolean('social_show_googleplus')->default(false);
 
             $t->unsignedInteger('location_is_manual')->default(0);
 
-            $t->boolean('is_live')->default(false);
+            $t->boolean('is_live')->default(true);
 
             $t->nullableTimestamps();
             $t->softDeletes();
