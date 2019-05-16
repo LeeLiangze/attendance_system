@@ -162,6 +162,8 @@ $(function() {
         $('.ticket_holder_first_name').val($('#order_first_name').val());
         $('.ticket_holder_last_name').val($('#order_last_name').val());
         $('.ticket_holder_email').val($('#order_email').val());
+        $('.ticket_holder_gender').val($('#order_gender option:selected').val());
+        $('.ticket_holder_group').val($('#order_group option:selected').val());
     });
 
     $('.card-number').payment('formatCardNumber');

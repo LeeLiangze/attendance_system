@@ -45,6 +45,21 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            {!! Form::label("order_gender", trans("Public_ViewEvent.gender")) !!}
+                            {!! Form::select("order_gender", array('female'=>'Female','male'=>'Male'), 'female', ['required' => 'required', 'class' => 'form-control']) !!}
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            {!! Form::label('order_group', trans("Public_ViewEvent.group")) !!}
+                            {!! Form::select('order_group', $group, 1, ['required' => 'required', 'class' => 'form-control']) !!}
+                        </div>
+                    </div>
+                </div>
+
                 <div class="p20 pl0">
                     <a href="javascript:void(0);" class="btn btn-primary btn-xs" id="mirror_buyer_info">
                         @lang("Public_ViewEvent.copy_buyer")
@@ -91,6 +106,20 @@
                                             </div>
                                             @include('Public.ViewEvent.Partials.AttendeeQuestions', ['ticket' => $ticket['ticket'],'attendee_number' => $total_attendee_increment++])
 
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    {!! Form::label("ticket_holder_gender[{$i}][{$ticket['ticket']['id']}]", trans("Public_ViewEvent.gender")) !!}
+                                                    {!! Form::select("ticket_holder_gender[{$i}][{$ticket['ticket']['id']}]", array('female'=>'Female','male'=>'Male'), 'female', ['required' => 'required', 'class' => "ticket_holder_gender.$i.{$ticket['ticket']['id']} ticket_holder_gender form-control"]) !!}
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    {!! Form::label("ticket_holder_group[{$i}][{$ticket['ticket']['id']}]", trans("Public_ViewEvent.group")) !!}
+                                                    {!! Form::select("ticket_holder_group[{$i}][{$ticket['ticket']['id']}]", $group, 1, ['required' => 'required', 'class' => "ticket_holder_group.$i.{$ticket['ticket']['id']} ticket_holder_group form-control"]) !!}
+                                                </div>
+                                            </div>
                                         </div>
 
                                     </div>

@@ -99,6 +99,15 @@ class Order extends MyBaseModel
         return $this->belongsTo(\App\Models\OrderStatus::class);
     }
 
+    /**
+     * The group associated with the order.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function group()
+    {
+        return $this->belongsTo(\App\Models\Group::class);
+    }
 
     /**
      * Get the organizer fee of the order.

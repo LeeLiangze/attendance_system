@@ -27,6 +27,8 @@ return [
   'download_tickets' => 'Download Tickets',
   'email' => 'Email',
   'email_address' => 'Email address',
+  'gender' => 'Gender',
+  'group' => 'Group',
   'event_already' => 'This event has :started.',
   'event_already_ended' => 'ended',
   'event_already_started' => 'already started',

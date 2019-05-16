@@ -9,6 +9,7 @@ use App\Models\Affiliate;
 use App\Models\Attendee;
 use App\Models\Event;
 use App\Models\EventStats;
+use App\Models\Group;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\PaymentGateway;
@@ -261,12 +262,14 @@ class EventCheckoutController extends Controller
 
         $orderService = new OrderService($order_session['order_total'], $order_session['total_booking_fee'], $event);
         $orderService->calculateFinalCosts();
+        $group = Group::pluck("name", "id");
 
         $data = $order_session + [
                 'event'           => $event,
                 'secondsToExpire' => $secondsToExpire,
                 'is_embedded'     => $this->is_embedded,
-                'orderService'    => $orderService
+                'orderService'    => $orderService,
+                'group'           => $group
                 ];
 
         if ($this->is_embedded) {
