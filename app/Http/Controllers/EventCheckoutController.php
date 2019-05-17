@@ -6,6 +6,7 @@ use App\Events\OrderCompletedEvent;
 use App\Models\Account;
 use App\Models\AccountPaymentGateway;
 use App\Models\Affiliate;
+use App\Models\Arupian;
 use App\Models\Attendee;
 use App\Models\Event;
 use App\Models\EventStats;
@@ -388,9 +389,9 @@ class EventCheckoutController extends Controller
             $ticket_questions = isset($request_data['ticket_holder_questions']) ? $request_data['ticket_holder_questions'] : [];
 
 
-            /*
+            /**
              * Create the order
-             */
+             **/
             if (isset($ticket_order['transaction_id'])) {
                 $order->transaction_id = $ticket_order['transaction_id'][0];
             }
@@ -414,7 +415,7 @@ class EventCheckoutController extends Controller
             $order->taxamt = 0;
             $order->save();
 
-            /*
+            /**
              * Update affiliates stats stats
              */
             if ($ticket_order['affiliate_referral']) {
@@ -424,7 +425,7 @@ class EventCheckoutController extends Controller
                 $affiliate->increment('tickets_sold', $ticket_order['total_ticket_quantity']);
             }
 
-            /*
+            /**
              * Update the event stats
              */
             $event_stats = EventStats::updateOrCreate([
@@ -438,12 +439,12 @@ class EventCheckoutController extends Controller
                 $event_stats->increment('organiser_fees_volume', $order->organiser_booking_fee);
             }
 
-            /*
+            /**
              * Add the attendees
              */
             foreach ($ticket_order['tickets'] as $attendee_details) {
 
-                /*
+                /**
                  * Update ticket's quantity sold
                  */
                 $ticket = Ticket::findOrFail($attendee_details['ticket']['id']);
@@ -457,7 +458,7 @@ class EventCheckoutController extends Controller
                     ($attendee_details['ticket']['organiser_booking_fee'] * $attendee_details['qty']));
 
 
-                /*
+                /**
                  * Insert order items (for use in generating invoices)
                  */
                 $orderItem = new OrderItem();
@@ -468,7 +469,7 @@ class EventCheckoutController extends Controller
                 $orderItem->unit_booking_fee = $attendee_details['ticket']['booking_fee'] + $attendee_details['ticket']['organiser_booking_fee'];
                 $orderItem->save();
 
-                /*
+                /**
                  * Create the attendees
                  */
                 for ($i = 0; $i < $attendee_details['qty']; $i++) {
@@ -486,8 +487,20 @@ class EventCheckoutController extends Controller
                     $attendee->reference_index = $attendee_increment;
                     $attendee->save();
 
+                    /**
+                     * Update arupian if not others
+                     */
+                    if ($request_data["ticket_holder_group"][$i][$attendee_details['ticket']['id']] != 1 && empty(Arupian::where('email', $request_data["ticket_holder_email"][$i][$attendee_details['ticket']['id']])->first())) {
+                        $arupian = new Arupian();
+                        $arupian->first_name = strip_tags($request_data["ticket_holder_first_name"][$i][$attendee_details['ticket']['id']]);
+                        $arupian->last_name = strip_tags($request_data["ticket_holder_last_name"][$i][$attendee_details['ticket']['id']]);
+                        $arupian->email = $request_data["ticket_holder_email"][$i][$attendee_details['ticket']['id']];
+                        $arupian->gender = $request_data["ticket_holder_gender"][$i][$attendee_details['ticket']['id']];
+                        $arupian->group_id = $request_data["ticket_holder_group"][$i][$attendee_details['ticket']['id']];
+                        $arupian->save();
+                    }
 
-                    /*
+                    /**
                      * Save the attendee's questions
                      */
                     foreach ($attendee_details['ticket']->questions as $question) {
