@@ -89,13 +89,6 @@ class EventAttendeesController extends MyBaseController
     {
         $event = Event::scope()->find($event_id);
 
-        /*
-         * If there are no tickets then we can't create an attendee
-         * @todo This is a bit hackish
-         */
-        if ($event->tickets->count() === 0) {
-            return '<script>showMessage("'.trans("Controllers.addInviteError").'");</script>';
-        }
         $groups = Group::pluck('name', 'id');
 
         return view('ManageEvent.Modals.InviteAttendee', [
@@ -327,20 +320,12 @@ class EventAttendeesController extends MyBaseController
                     $order->email = $attendee_email;
                     $order->gender = $attendee_gender;
                     $order->group_id = $attendee_groupId;
-                    $order->order_status_id = config('attendize.order_complete');
+                    $order->order_status_id = 1;
                     $order->amount = $ticket_price;
                     $order->account_id = Auth::user()->account_id;
                     $order->event_id = $event_id;
-
-                    // Calculating grand total including tax
-                    $orderService = new OrderService($ticket_price, 0, $event);
-                    $orderService->calculateFinalCosts();
-                    $order->taxamt = $orderService->getTaxAmount();
-
-                    if ($orderService->getGrandTotal() == 0) {
-                        $order->is_payment_received = 1;
-                    }
-
+                    $order->taxamt = 0;
+                    $order->is_payment_received = 1;
                     $order->save();
 
                     /**
@@ -385,7 +370,7 @@ class EventAttendeesController extends MyBaseController
                     $attendee->save();
 
                     if ($email_attendee == '1') {
-//                        $this->dispatch(new SendAttendeeInvite($attendee));
+                        $this->dispatch(new SendAttendeeInvite($attendee));
                     }
                 }
             };

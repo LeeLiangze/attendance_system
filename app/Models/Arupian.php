@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Arupian extends MyBaseModel
 {
@@ -34,14 +35,20 @@ class Arupian extends MyBaseModel
     {
         parent::boot();
 
-        static::creating(function ($order) {
+        static::creating(function ($arupian) {
             do {
                 //generate a random string using Laravel's str_random helper
                 $token = Str::Random(5) . date('jn');
             } //check if the token already exists and if it does, try again
 
-            while (Order::where('order_reference', $token)->first());
-            $order->order_reference = $token;
+            while (Arupian::where('reference', $token)->first());
+
+            do {
+                $token_private = Str::Random(15);
+            }
+            while (Arupian::where('private_reference', $token_private)->first());
+            $arupian->reference = $token;
+            $arupian->private_reference = $token_private;
 
         });
     }

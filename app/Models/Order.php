@@ -18,10 +18,10 @@ class Order extends MyBaseModel
      */
     public $rules = [
         'order_first_name' => ['required'],
-        'order_last_name'  => ['required'],
-        'order_email'      => ['required', 'email'],
-        'order_gender'     => ['required'],
-        'order_group'      => ['required'],
+        'order_last_name' => ['required'],
+        'order_email' => ['required', 'email'],
+        'order_gender' => ['required'],
+        'order_group' => ['required'],
     ];
 
     /**
@@ -31,10 +31,10 @@ class Order extends MyBaseModel
      */
     public $messages = [
         'order_first_name.required' => 'Please enter a valid first name',
-        'order_last_name.required'  => 'Please enter a valid last name',
-        'order_email.email'         => 'Please enter a valid email',
-        'order_gender.required'     => 'Please enter a valid gender',
-        'order_group.required'      => 'Please enter a valid group',
+        'order_last_name.required' => 'Please enter a valid last name',
+        'order_email.email' => 'Please enter a valid email',
+        'order_gender.required' => 'Please enter a valid gender',
+        'order_group.required' => 'Please enter a valid group',
     ];
 
     /**
@@ -153,12 +153,12 @@ class Order extends MyBaseModel
     public function generatePdfTickets()
     {
         $data = [
-            'order'     => $this,
-            'event'     => $this->event,
-            'tickets'   => $this->event->tickets,
+            'order' => $this,
+            'event' => $this->event,
+            'tickets' => $this->event->tickets,
             'attendees' => $this->attendees,
-            'css'       => file_get_contents(public_path('assets/stylesheet/ticket.css')),
-            'image'     => base64_encode(file_get_contents(public_path($this->event->organiser->full_logo_path))),
+            'css' => file_get_contents(public_path('assets/stylesheet/ticket.css')),
+            'image' => base64_encode(file_get_contents(public_path($this->event->organiser->full_logo_path))),
         ];
 
         $pdf_file_path = public_path(config('attendize.event_pdf_tickets_path')) . '/' . $this->order_reference;
@@ -189,14 +189,15 @@ class Order extends MyBaseModel
         parent::boot();
 
         static::creating(function ($order) {
-            do {
-                    //generate a random string using Laravel's str_random helper
+            if (empty($order->order_reference)) {
+                do {
                     $token = Str::Random(5) . date('jn');
-            } //check if the token already exists and if it does, try again
-            
-			while (Order::where('order_reference', $token)->first());
+                }
+                while (Arupian::where('reference', $token)->first());
+            } else {
+                $token = $order->order_reference;
+            }
             $order->order_reference = $token;
-        
-		});
+        });
     }
 }

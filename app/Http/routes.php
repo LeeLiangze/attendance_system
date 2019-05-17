@@ -512,6 +512,22 @@ Route::group(
                 'as'   => 'postCancelArupian',
                 'uses' => 'ArupianController@postCancelArupian',
             ]);
+            Route::get('{event_id}/arupian/create', [
+                'as'   => 'showCreateArupian',
+                'uses' => 'ArupianController@showCreateArupian',
+            ]);
+            Route::post('{event_id}/arupian/create', [
+                'as'   => 'postCreateArupian',
+                'uses' => 'ArupianController@postCreateArupian',
+            ]);
+            Route::get('{event_id}/arupians/send', [
+                'as'   => 'showSendArupian',
+                'uses' => 'ArupianController@showSendArupian',
+            ]);
+            Route::post('{event_id}/arupians/send', [
+                'as'   => 'postSendArupian',
+                'uses' => 'ArupianController@postSendArupian',
+            ]);
 
             /*
              * -------

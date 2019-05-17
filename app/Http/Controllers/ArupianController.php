@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendAttendeeInvite;
 use App\Models\Arupian;
+use App\Models\Attendee;
 use App\Models\Event;
+use App\Models\EventStats;
 use App\Models\Group;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Ticket;
+use function Couchbase\defaultDecoder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class ArupianController extends MyBaseController
@@ -162,6 +170,194 @@ class ArupianController extends MyBaseController
 
     }
 
+    /**
+     * Show the 'Invite arup' modal
+     *
+     * @param Request $request
+     * @param $event_id
+     * @return string|View
+     */
+    public function showCreateArupian(Request $request, $event_id)
+    {
+        $event = Event::scope()->find($event_id);
+        $groups = Group::pluck('name', 'id');
 
+        return view('ManageEvent.Modals.CreateArupian', [
+            'event'   => $event,
+            'groups'  => $groups,
+        ]);
+    }
+
+    /**
+     * Post the 'create arup' modal
+     *
+     * @param Request $request
+     * @param $event_id
+     * @return string|View
+     */
+    public function postCreateArupian(Request $request, $event_id)
+    {
+        $rules = [
+            'first_name' => 'required',
+            'last_name'  => 'required',
+            'email'      => 'required|email',
+            'gender'     => 'required',
+            'group_id'      => 'required',
+        ];
+
+        $messages = [
+            'first_name.required'   => 'First name must not null',
+            'last_name.required' => 'Last name must not null',
+            'email.required' => 'Email must not null'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status'   => 'error',
+                'messages' => $validator->messages()->toArray(),
+            ]);
+        }
+
+        $arupian = new Arupian();
+        $arupian->first_name = $request->get('first_name');
+        $arupian->last_name = $request->get('last_name');
+        $arupian->email = $request->get('email');
+        $arupian->gender = $request->get('gender');
+        $arupian->group_id = $request->get('group_id');
+        $arupian->save();
+
+        session()->flash('message','Successfully Create Arupian');
+
+        return response()->json([
+            'status'      => 'success',
+            'redirectUrl' => '',
+            'event_id'    => $event_id,
+        ]);
+    }
+
+    /**
+     * Show the 'send arupian' modal
+     *
+     * @param Request $request
+     * @param $event_id
+     * @return string|View
+     */
+    public function showSendArupian(Request $request, $event_id)
+    {
+        $event = Event::scope()->find($event_id);
+        if ($event->tickets->count() === 0) {
+            return '<script>showMessage("Send Arupians error. Please create ticket");</script>';
+        }
+
+        return view('ManageEvent.Modals.SendArupian', [
+            'event'   => $event,
+            'tickets' => $event->tickets()->pluck('title', 'id'),
+        ]);
+    }
+
+    /**
+     * Post the 'send arupian' modal
+     *
+     * @param Request $request
+     * @param $event_id
+     * @return string|View
+     */
+    public function postSendArupian(Request $request, $event_id)
+    {
+        $ticket_id = $request->get('ticket_id');
+        $ticket_price = 0;
+        $email_attendee = $request->get('email_ticket');
+        $num_added = 0;
+        $arupians = Arupian::all();
+        foreach ($arupians as $arupian) {
+            $num_added++;
+
+            $arupian_first_name = $arupian['first_name'];
+            $arupian_last_name = $arupian['last_name'];
+            $arupian_email = $arupian['email'];
+            $arupian_gender = $arupian['gender'];
+            $arupian_group_id = $arupian['group_id'];
+            $arupian_reference = $arupian['reference'];
+            $arupian_private_reference = $arupian['private_reference'];
+
+            error_log($ticket_id . ' ' . $ticket_price . ' ' . $email_attendee);
+
+            /**
+             * Create the order
+             */
+            $order = new Order();
+            $order->first_name = $arupian_first_name;
+            $order->last_name = $arupian_last_name;
+            $order->email = $arupian_email;
+            $order->gender = $arupian_gender;
+            $order->group_id = $arupian_group_id;
+            $order->order_reference = $arupian_reference;
+            $order->order_status_id = 1;
+            $order->amount = $ticket_price;
+            $order->account_id = Auth::user()->account_id;
+            $order->event_id = $event_id;
+            $order->taxamt = 0;
+            $order->is_payment_received = 1;
+            $order->save();
+
+            /**
+             * Update qty sold
+             */
+            $ticket = Ticket::scope()->find($ticket_id);
+            $ticket->increment('quantity_sold');
+            $ticket->increment('sales_volume', $ticket_price);
+            $ticket->event->increment('sales_volume', $ticket_price);
+
+            /**
+             * Insert order item
+             */
+            $orderItem = new OrderItem();
+            $orderItem->title = $ticket->title;
+            $orderItem->quantity = 1;
+            $orderItem->order_id = $order->id;
+            $orderItem->unit_price = $ticket_price;
+            $orderItem->save();
+
+            /**
+             * Update the event stats
+             */
+            $event_stats = new EventStats();
+            $event_stats->updateTicketsSoldCount($event_id, 1);
+            $event_stats->updateTicketRevenue($ticket_id, $ticket_price);
+
+            /**
+             * Create the attendee
+             */
+            $attendee = new Attendee();
+            $attendee->first_name = $arupian_first_name;
+            $attendee->last_name = $arupian_last_name;
+            $attendee->email = $arupian_email;
+            $attendee->gender = $arupian_gender;
+            $attendee->group_id = $arupian_group_id;
+            $attendee->private_reference_number = $arupian_private_reference;
+            $attendee->event_id = $event_id;
+            $attendee->order_id = $order->id;
+            $attendee->ticket_id = $ticket_id;
+            $attendee->account_id = Auth::user()->account_id;
+            $attendee->reference_index = 1;
+            $attendee->save();
+
+            if ($email_attendee == '1') {
+                $this->dispatch(new SendAttendeeInvite($attendee));
+            }
+        }
+
+        session()->flash('message', $num_added . ' Arupians Successfully Invited');
+
+        return response()->json([
+            'status'      => 'success',
+            'id'          => $arupian->id,
+            'redirectUrl' => route('showArupians', [
+            'event_id' => $event_id,
+            ]),
+        ]);
+    }
 
 }

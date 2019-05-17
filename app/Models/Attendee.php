@@ -45,13 +45,17 @@ class Attendee extends MyBaseModel
         parent::boot();
 
         static::creating(function ($order) {
+            if (empty($order->private_reference_number)) {
+                do {
+                    //generate a random string using Laravel's str_random helper
+                    $token = Str::Random(15);
+                } //check if the token already exists and if it does, try again
 
-            do {
-                //generate a random string using Laravel's str_random helper
-                $token = Str::Random(15);
-            } //check if the token already exists and if it does, try again
+                while (Attendee::where('private_reference_number', $token)->first());
+            } else {
+                $token = $order->private_reference_number;
+            }
 
-            while (Attendee::where('private_reference_number', $token)->first());
             $order->private_reference_number = $token;
         });
 
