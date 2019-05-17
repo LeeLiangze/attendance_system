@@ -11,6 +11,7 @@ installed
 /composer.phar
 _ide_helper.php
 *.swp
+test.php
 
 
 # Do not include backup lang files

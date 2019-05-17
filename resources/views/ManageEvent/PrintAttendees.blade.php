@@ -28,10 +28,10 @@
                 <tr>
                     <th>@lang("Attendee.name")</th>
                     <th>@lang("Attendee.email")</th>
-                    <th>@lang("Order.ticket")</th>
-                    <th>@lang("Order.order_ref")</th>
-                    <th>@lang("Order.purchase_date")</th>
-                    <th>@lang("Order.arrived")</th>
+                    <th>Gender</th>
+                    <th>Evaculate To Assembly Area</th>
+                    <th>Remarks</th>
+                    <th>Arrival time</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,10 +39,15 @@
                 <tr>
                     <td>{{{$attendee->full_name}}}</td>
                     <td>{{{$attendee->email}}}</td>
-                    <td>{{{$attendee->ticket->title}}}</td>
-                    <td>{{{$attendee->order->order_reference}}}</td>
-                    <td>{{$attendee->created_at->format(env("DEFAULT_DATETIME_FORMAT"))}}</td>
-                    <td><input type="checkbox" style="border: 1px solid #000; height: 15px; width: 15px;" /></td>
+                    <td>{{{$attendee->gender}}}</td>
+                    @if($attendee->has_arrived == 0)
+                        <td><input type="checkbox" style="border: 1px solid #000; height: 15px; width: 15px;" /></td>
+                    @else
+                        <td><input type="checkbox" style="border: 1px solid #000; height: 15px; width: 15px;" checked /></td>
+                    @endif
+                    <td>{{{$attendee->group->name}}}</td>
+                    <td>{{$attendee->arrival_time}}</td>
+
                 </tr>
                 @endforeach
             </tbody>

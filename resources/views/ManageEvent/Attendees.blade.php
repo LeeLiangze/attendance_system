@@ -47,7 +47,6 @@
                 <li><a href="{{route('showExportAttendees', ['event_id'=>$event->id,'export_as'=>'xlsx'])}}">@lang("File_format.Excel_xlsx")</a></li>
                 <li><a href="{{route('showExportAttendees', ['event_id'=>$event->id,'export_as'=>'xls'])}}">@lang("File_format.Excel_xls")</a></li>
                 <li><a href="{{route('showExportAttendees', ['event_id'=>$event->id,'export_as'=>'csv'])}}">@lang("File_format.csv")</a></li>
-                <li><a href="{{route('showExportAttendees', ['event_id'=>$event->id,'export_as'=>'html'])}}">@lang("File_format.html")</a></li>
             </ul>
         </div>
         {{--<div class="btn-group btn-group-responsive">--}}
@@ -115,14 +114,6 @@
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@lang("basic.action") <span class="caret"></span></button>
                                     <ul class="dropdown-menu">
-                                        @if($attendee->email)
-                                        <li><a
-                                            data-modal-id="MessageAttendee"
-                                            href="javascript:void(0);"
-                                            data-href="{{route('showMessageAttendee', ['attendee_id'=>$attendee->id])}}"
-                                            class="loadModal"
-                                            > @lang("basic.message")</a></li>
-                                        @endif
                                         <li><a
                                             data-modal-id="ResendTicketToAttendee"
                                             href="javascript:void(0);"

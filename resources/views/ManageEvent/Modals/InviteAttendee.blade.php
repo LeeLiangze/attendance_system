@@ -53,6 +53,28 @@
                                                 ))  !!}
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {!! Form::label('gender', trans("Attendee.gender"), array('class'=>'control-label required')) !!}
+                                    {!!  Form::select('gender', array('female'=>'Female', 'male'=>'Male'), 'female',
+                                            array(
+                                            'class'=>'form-control'
+                                            ))  !!}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {!! Form::label('group_id', trans("Attendee.group"), array('class'=>'control-label required')) !!}
+                                    {!!  Form::select('group_id', $groups, 1,
+                                            array(
+                                            'class'=>'form-control'
+                                            ))  !!}
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="checkbox custom-checkbox">
                                 <input type="checkbox" name="email_ticket" id="email_ticket" value="1" />

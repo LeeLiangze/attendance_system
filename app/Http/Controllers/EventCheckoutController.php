@@ -299,7 +299,6 @@ class EventCheckoutController extends Controller
             ]);
         }
 
-        $event = Event::findOrFail($event_id);
         $order = new Order();
         $ticket_order = session()->get('ticket_order_' . $event_id);
 
@@ -401,6 +400,8 @@ class EventCheckoutController extends Controller
             $order->first_name = strip_tags($request_data['order_first_name']);
             $order->last_name = strip_tags($request_data['order_last_name']);
             $order->email = $request_data['order_email'];
+            $order->gender = $request_data['order_gender'];
+            $order->group_id = $request_data['order_group'];
             $order->order_status_id = isset($request_data['pay_offline']) ? config('attendize.order_awaiting_payment') : config('attendize.order_complete');
             $order->amount = 0;
             $order->booking_fee = 0;
@@ -476,6 +477,8 @@ class EventCheckoutController extends Controller
                     $attendee->first_name = strip_tags($request_data["ticket_holder_first_name"][$i][$attendee_details['ticket']['id']]);
                     $attendee->last_name = strip_tags($request_data["ticket_holder_last_name"][$i][$attendee_details['ticket']['id']]);
                     $attendee->email = $request_data["ticket_holder_email"][$i][$attendee_details['ticket']['id']];
+                    $attendee->gender = $request_data["ticket_holder_gender"][$i][$attendee_details['ticket']['id']];
+                    $attendee->group_id = $request_data["ticket_holder_group"][$i][$attendee_details['ticket']['id']];
                     $attendee->event_id = $event_id;
                     $attendee->order_id = $order->id;
                     $attendee->ticket_id = $attendee_details['ticket']['id'];

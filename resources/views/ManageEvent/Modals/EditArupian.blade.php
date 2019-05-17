@@ -1,25 +1,17 @@
 <div role="dialog"  class="modal fade" style="display: none;">
-   {!! Form::model($attendee, array('url' => route('postEditAttendee', array('event_id' => $event->id, 'attendee_id' => $attendee->id)), 'class' => 'ajax')) !!}
+    {!! Form::model($arupian, array('url' => route('postEditArupian', array('event_id' => $event, 'arupian_id' => $arupian->id)), 'class' => 'ajax')) !!}
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header text-center">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title">
                     <i class="ico-edit"></i>
-                    {{ @trans("ManageEvent.edit_attendee_title", ["attendee"=> $attendee->full_name]) }}
-                    </h3>
+                    {{ @trans("ManageEvent.edit_arupian_title", ["arupian"=> $arupian->full_name]) }}
+                </h3>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                   {!! Form::label('ticket_id', trans("ManageEvent.ticket"), array('class'=>'control-label required')) !!}
-                                   {!! Form::select('ticket_id', $tickets, $attendee->ticket_id, ['class' => 'form-control']) !!}
-                                </div>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -57,7 +49,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     {!! Form::label('gender', trans("Attendee.gender"), array('class'=>'control-label required')) !!}
-                                    {!!  Form::select('gender', array('female'=>'Female', 'male'=>'Male'), $attendee->gender,
+                                    {!!  Form::select('gender', array('female'=>'Female', 'male'=>'Male'), $arupian->gender,
                                             array(
                                             'class'=>'form-control'
                                             ))  !!}
@@ -67,7 +59,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     {!! Form::label('group_id', trans("Attendee.group"), array('class'=>'control-label required')) !!}
-                                    {!!  Form::select('group_id', $groups, $attendee->group_id,
+                                    {!!  Form::select('group_id', $groups, $arupian->group_id,
                                             array(
                                             'class'=>'form-control'
                                             ))  !!}
@@ -78,11 +70,11 @@
                 </div>
             </div> <!-- /end modal body-->
             <div class="modal-footer">
-               {!! Form::hidden('attendee_id', $attendee->id) !!}
-               {!! Form::button(trans("basic.cancel"), ['class'=>"btn modal-close btn-danger",'data-dismiss'=>'modal']) !!}
-               {!! Form::submit(trans("ManageEvent.edit_attendee"), ['class'=>"btn btn-success"]) !!}
+                {!! Form::hidden('arupian_id', $arupian->id) !!}
+                {!! Form::button(trans("basic.cancel"), ['class'=>"btn modal-close btn-danger",'data-dismiss'=>'modal']) !!}
+                {!! Form::submit(trans("ManageEvent.edit_attendee"), ['class'=>"btn btn-success"]) !!}
             </div>
         </div><!-- /end modal content-->
-       {!! Form::close() !!}
+        {!! Form::close() !!}
     </div>
 </div>

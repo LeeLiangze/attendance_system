@@ -23,12 +23,12 @@
                     <span class="text">@lang("basic.tickets")</span>
                 </a>
             </li>
-            {{--<li class="{{ Request::is('*orders*') ? 'active' : '' }}">--}}
-                {{--<a href="{{route('showEventOrders', array('event_id' => $event->id))}}">--}}
-                    {{--<span class="figure"><i class="ico-cart"></i></span>--}}
-                    {{--<span class="text">@lang("basic.orders")</span>--}}
-                {{--</a>--}}
-            {{--</li>--}}
+            <li class="{{ Request::is('*arupians*') ? 'active' : '' }}">
+                <a href="{{route('showArupians', array('event_id' => $event->id))}}">
+                    <span class="figure"><i class="ico-users"></i></span>
+                    <span class="text">arupians</span>
+                </a>
+            </li>
             <li class="{{ Request::is('*attendees*') ? 'active' : '' }}">
                 <a href="{{route('showEventAttendees', array('event_id' => $event->id))}}">
                     <span class="figure"><i class="ico-user"></i></span>

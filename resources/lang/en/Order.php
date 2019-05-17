@@ -47,4 +47,5 @@ return array (
   'transaction_id' => 'Transaction ID',
   'view_order' => 'View Order',
   'view_order_num' => 'View Order #:num',
+  'view_arupian_num' => 'View Arupian #:num',
 );

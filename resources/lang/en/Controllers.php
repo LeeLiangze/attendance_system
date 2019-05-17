@@ -100,6 +100,7 @@ return array (
   'successfully_refunded_order' => 'Successfully Refunded Order!',
   'successfully_saved_details' => 'Successfully Saved Details!',
   'successfully_updated_attendee' => 'Successfully Updated Attendee!',
+  'successfully_updated_arupian' => 'Successfully Updated Arupian!',
   'successfully_updated_organiser' => 'Successfully Updated Organiser!',
   'successfully_updated_question' => 'Question Successfully Updated',
   'successfully_updated_question_order' => 'Question Order Successfully Updated',

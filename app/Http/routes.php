@@ -20,6 +20,8 @@ Route::group(
         'uses' => 'InstallerController@showInstaller',
     ]);
 
+    Route::get('test', 'TestController@index');
+
     Route::post('install', [
         'as'   => 'postInstaller',
         'uses' => 'InstallerController@postInstaller',
@@ -483,6 +485,32 @@ Route::group(
             Route::post('{event_id}/attendees/{attendee_id}/cancel', [
                 'as'   => 'postCancelAttendee',
                 'uses' => 'EventAttendeesController@postCancelAttendee',
+            ]);
+
+            /*
+             * --------
+             * Arupians
+             * --------
+             */
+            Route::get('{event_id}/arupians/', [
+                'as'   => 'showArupians',
+                'uses' => 'ArupianController@showArupians',
+            ]);
+            Route::get('{event_id}/arupian/{arupian_id}/edit', [
+                'as'   => 'showEditArupian',
+                'uses' => 'ArupianController@showEditArupian',
+            ]);
+            Route::post('{event_id}/arupian/{arupian_id}/edit', [
+                'as'   => 'postEditArupian',
+                'uses' => 'ArupianController@postEditArupian',
+            ]);
+            Route::get('{event_id}/arupian/{arupian_id}/cancel', [
+                'as'   => 'showCancelArupian',
+                'uses' => 'ArupianController@showCancelArupian',
+            ]);
+            Route::post('{event_id}/arupian/{arupian_id}/cancel', [
+                'as'   => 'postCancelArupian',
+                'uses' => 'ArupianController@postCancelArupian',
             ]);
 
             /*

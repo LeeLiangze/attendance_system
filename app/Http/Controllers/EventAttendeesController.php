@@ -9,6 +9,7 @@ use App\Jobs\SendMessageToAttendees;
 use App\Models\Attendee;
 use App\Models\Event;
 use App\Models\EventStats;
+use App\Models\Group;
 use App\Models\Message;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -95,10 +96,12 @@ class EventAttendeesController extends MyBaseController
         if ($event->tickets->count() === 0) {
             return '<script>showMessage("'.trans("Controllers.addInviteError").'");</script>';
         }
+        $groups = Group::pluck('name', 'id');
 
         return view('ManageEvent.Modals.InviteAttendee', [
             'event'   => $event,
             'tickets' => $event->tickets()->pluck('title', 'id'),
+            'groups'  => $groups,
         ]);
     }
 
@@ -299,14 +302,21 @@ class EventAttendeesController extends MyBaseController
 
             // Loop through
             foreach ($the_file as $rows) {
-                if (!empty($rows['first_name']) && !empty($rows['last_name']) && !empty($rows['email'])) {
+                if (!empty($rows['first_name']) && !empty($rows['last_name']) && !empty($rows['email']) && !empty($rows['gender']) && !empty($rows['group'])) {
                     $num_added++;
                     $attendee_first_name = strip_tags($rows['first_name']);
                     $attendee_last_name = strip_tags($rows['last_name']);
                     $attendee_email = $rows['email'];
+                    $attendee_gender = $rows['gender'];
+                    $attendee_group = $rows['group'];
+                    $attendee_group_id = Group::where('name', $attendee_group)->first('id');
 
+                    if (!empty($attendee_group_id)) {
+                        $attendee_groupId = $attendee_group_id->id;
+                    } else {
+                        $attendee_groupId = 1;
+                    }
                     error_log($ticket_id . ' ' . $ticket_price . ' ' . $email_attendee);
-
 
                     /**
                      * Create the order
@@ -315,6 +325,8 @@ class EventAttendeesController extends MyBaseController
                     $order->first_name = $attendee_first_name;
                     $order->last_name = $attendee_last_name;
                     $order->email = $attendee_email;
+                    $order->gender = $attendee_gender;
+                    $order->group_id = $attendee_groupId;
                     $order->order_status_id = config('attendize.order_complete');
                     $order->amount = $ticket_price;
                     $order->account_id = Auth::user()->account_id;
@@ -363,6 +375,8 @@ class EventAttendeesController extends MyBaseController
                     $attendee->first_name = $attendee_first_name;
                     $attendee->last_name = $attendee_last_name;
                     $attendee->email = $attendee_email;
+                    $attendee->gender = $attendee_gender;
+                    $attendee->group_id = $attendee_groupId;
                     $attendee->event_id = $event_id;
                     $attendee->order_id = $order->id;
                     $attendee->ticket_id = $ticket_id;
@@ -371,7 +385,7 @@ class EventAttendeesController extends MyBaseController
                     $attendee->save();
 
                     if ($email_attendee == '1') {
-                        $this->dispatch(new SendAttendeeInvite($attendee));
+//                        $this->dispatch(new SendAttendeeInvite($attendee));
                     }
                 }
             };
@@ -587,15 +601,14 @@ class EventAttendeesController extends MyBaseController
                     ->join('events', 'events.id', '=', 'attendees.event_id')
                     ->join('orders', 'orders.id', '=', 'attendees.order_id')
                     ->join('tickets', 'tickets.id', '=', 'attendees.ticket_id')
+                    ->join('groups', 'groups.id', '=', 'attendees.group_id')
                     ->select([
                         'attendees.first_name',
                         'attendees.last_name',
                         'attendees.email',
-			'attendees.private_reference_number',
-                        'orders.order_reference',
-                        'tickets.title',
-                        'orders.created_at',
+			            'attendees.gender',
                         DB::raw("(CASE WHEN attendees.has_arrived THEN 'YES' ELSE 'NO' END) AS has_arrived"),
+			            'groups.name',
                         'attendees.arrival_time',
                     ])->get();
 
@@ -608,11 +621,9 @@ class EventAttendeesController extends MyBaseController
                     'First Name',
                     'Last Name',
                     'Email',
-		    'Ticket ID',
-                    'Order Reference',
-                    'Ticket Type',
-                    'Purchase Date',
-                    'Has Arrived',
+		            'Gender',
+                    'Evaculate To Assembly Area',
+		            'Remark',
                     'Arrival Time',
                 ]);
 
@@ -635,11 +646,13 @@ class EventAttendeesController extends MyBaseController
     public function showEditAttendee(Request $request, $event_id, $attendee_id)
     {
         $attendee = Attendee::scope()->findOrFail($attendee_id);
+        $groups = Group::pluck('name', 'id');
 
         $data = [
             'attendee' => $attendee,
             'event'    => $attendee->event,
             'tickets'  => $attendee->event->tickets->pluck('title', 'id'),
+            'groups'    => $groups,
         ];
 
         return view('ManageEvent.Modals.EditAttendee', $data);
@@ -659,6 +672,8 @@ class EventAttendeesController extends MyBaseController
             'first_name' => 'required',
             'ticket_id'  => 'required|exists:tickets,id,account_id,' . Auth::user()->account_id,
             'email'      => 'required|email',
+            'gender'     => 'required',
+            'group'      => 'required',
         ];
 
         $messages = [

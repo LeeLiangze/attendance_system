@@ -78,6 +78,16 @@ class Attendee extends MyBaseModel
     }
 
     /**
+     * The group associated with the attendee.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function group()
+    {
+        return $this->belongsTo(\App\Models\Group::class);
+    }
+
+    /**
      * The event associated with the attendee.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
