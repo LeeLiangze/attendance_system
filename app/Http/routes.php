@@ -54,6 +54,9 @@ Route::group(
 
 
     Route::group(['middleware' => ['installed']], function () {
+        Route::get('/', function () {
+            return redirect('/login');
+        });
 
         /*
          * Login
