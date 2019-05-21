@@ -49,7 +49,7 @@
     <div class="col-md-3 col-sm-6">
         {!! Form::open(array('url' => route('showArupians', ['event_id'=>$event->id,'sort_by'=>$sort_by]), 'method' => 'get')) !!}
         <div class="input-group">
-            <input name='q' value="{{$q or ''}}" placeholder="Search Arupian" type="text" class="form-control">
+            <input name='q' value="{{$t or ''}}" placeholder="Search Arupian" type="text" class="form-control">
             <span class="input-group-btn">
             <button class="btn btn-default" type="submit"><i class="ico-search"></i></button>
         </span>
@@ -74,16 +74,16 @@
                             <thead>
                             <tr>
                                 <th width="20%">
-                                    {!! Html::sortable_link('name', $sort_by, 'first_name', $sort_order, ['q' => $q , 'page' => $arupians->currentPage()]) !!}
+                                    {!! Html::sortable_link('name', $sort_by, 'first_name', $sort_order, ['t' => $t , 'page' => $arupians->currentPage()]) !!}
                                 </th>
                                 <th width="20%">
-                                    {!! Html::sortable_link('email', $sort_by, 'email', $sort_order, ['q' => $q , 'page' => $arupians->currentPage()]) !!}
+                                    {!! Html::sortable_link('email', $sort_by, 'email', $sort_order, ['t' => $t , 'page' => $arupians->currentPage()]) !!}
                                 </th>
                                 <th width="10%">
-                                    {!! Html::sortable_link('gender', $sort_by, 'gender', $sort_order, ['q' => $q , 'page' => $arupians->currentPage()]) !!}
+                                    {!! Html::sortable_link('gender', $sort_by, 'gender', $sort_order, ['t' => $t , 'page' => $arupians->currentPage()]) !!}
                                 </th>
                                 <th width="35%">
-                                    {!! Html::sortable_link('group', $sort_by, 'group', $sort_order, ['q' => $q , 'page' => $arupians->currentPage()]) !!}
+                                    {!! Html::sortable_link('group', $sort_by, 'group', $sort_order, ['t' => $t , 'page' => $arupians->currentPage()]) !!}
                                 </th>
                                 <th width="15%">
                                 </th>
@@ -132,7 +132,7 @@
 
                 @else
 
-                    @if(!empty($q))
+                    @if(!empty($t))
                         @include('Shared.Partials.NoSearchResults')
                     @else
                         @include('ManageEvent.Partials.OrdersBlankSlate')
@@ -141,7 +141,7 @@
                 @endif
             </div>
             <div class="col-md-12">
-                {!!$arupians->appends(['sort_by' => $sort_by, 'sort_order' => $sort_order, 'q' => $q])->render()!!}
+                {!!$arupians->appends(['sort_by' => $sort_by, 'sort_order' => $sort_order, 't' => $t])->render()!!}
             </div>
     </div>    <!--/End attendees table-->
 @stop

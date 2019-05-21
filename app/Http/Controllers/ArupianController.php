@@ -27,13 +27,13 @@ class ArupianController extends MyBaseController
     {
         $allowed_sorts = ['first_name', 'last_name', 'email', 'reference', 'created_at'];
 
-        $searchQuery = $request->get('q');
+        $searchQuery = $request->get('t');
         $sort_by = (in_array($request->get('sort_by'), $allowed_sorts) ? $request->get('sort_by') : 'created_at');
         $sort_order = $request->get('sort_order') == 'asc' ? 'asc' : 'desc';
 
         $event = Event::scope()->find($event_id);
-
         if ($searchQuery) {
+            dd($searchQuery);
             /*
              * Strip the hash from the start of the search term in case people search for
              * order references like '#EDGC67'
@@ -59,7 +59,7 @@ class ArupianController extends MyBaseController
             'event'      => $event,
             'sort_by'    => $sort_by,
             'sort_order' => $sort_order,
-            'q'          => $searchQuery ? $searchQuery : '',
+            't'          => $searchQuery ? $searchQuery : '',
         ];
 
         return view('ManageEvent.Arupian', $data);
