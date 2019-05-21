@@ -97,9 +97,6 @@
                 </div>
             </div>
             <div class="col-md-2 col-xs-6 col-md-offset-7">
-                <div class='order_options'>
-                    {!! Form::select('sort_by_select', $allowed_sorts, $sort_by, ['class' => 'form-control pull right']) !!}
-                </div>
             </div>
         </div>
     @endif
