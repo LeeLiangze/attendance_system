@@ -3,7 +3,7 @@
 @section('title')
     @parent
 
-    @lang("Event.event_orders")
+    Arupians
 @stop
 
 @section('top_nav')
@@ -135,7 +135,7 @@
                     @if(!empty($t))
                         @include('Shared.Partials.NoSearchResults')
                     @else
-                        @include('ManageEvent.Partials.OrdersBlankSlate')
+                        @include('ManageEvent.Partials.ArupiansBlankSlate')
                     @endif
 
                 @endif
