@@ -30,11 +30,18 @@
         <!-- Toolbar -->
         <div class="btn-toolbar" role="toolbar">
             <div class="btn-group btn-group-responsive">
-                <button data-modal-id="InviteArupian" href="javascript:void(0);"  data-href="{{route('showCreateArupian', ['event_id'=>$event->id])}}" class="loadModal btn btn-success" type="button"><i class="ico-user"></i>Add arupian</button>
+                <button data-modal-id="InviteArupian" href="javascript:void(0);"
+                        data-href="{{route('showCreateArupian', ['event_id'=>$event->id])}}"
+                        class="loadModal btn btn-success" type="button"><i class="ico-user"></i>Add arupian
+                </button>
             </div>
 
             <div class="btn-group btn-group-responsive">
-                <button data-modal-id="SendArupians" href="javascript:void(0);"  data-href="{{route('showSendArupian', ['event_id'=>$event->id])}}" class="loadModal btn btn-success" type="button"><i class="ico-users"></i>Send tickets to all arupians</button>
+                <button data-modal-id="SendArupians" href="javascript:void(0);"
+                        data-href="{{route('showSendArupian', ['event_id'=>$event->id])}}"
+                        class="loadModal btn btn-success" type="button"><i class="ico-users"></i>Send tickets to all
+                    arupians
+                </button>
             </div>
         </div>
         <!--/ Toolbar -->
@@ -79,7 +86,6 @@
                                     {!! Html::sortable_link('group', $sort_by, 'group', $sort_order, ['q' => $q , 'page' => $arupians->currentPage()]) !!}
                                 </th>
                                 <th width="15%">
-                                    {!! Html::sortable_link('status', $sort_by, 'order_status_id', $sort_order, ['q' => $q , 'page' => $arupians->currentPage()]) !!}
                                 </th>
                                 <th></th>
                             </tr>
@@ -122,19 +128,20 @@
                         </table>
                     </div>
                 </div>
+
+
+                @else
+
+                    @if(!empty($q))
+                        @include('Shared.Partials.NoSearchResults')
+                    @else
+                        @include('ManageEvent.Partials.OrdersBlankSlate')
+                    @endif
+
+                @endif
             </div>
             <div class="col-md-12">
-                {!!$arupians->appends(['sort_by' => $sort_by, 'sort_git p' => $sort_order, 'q' => $q])->render()!!}
+                {!!$arupians->appends(['sort_by' => $sort_by, 'sort_order' => $sort_order, 'q' => $q])->render()!!}
             </div>
-
-        @else
-
-            @if($q)
-                @include('Shared.Partials.NoSearchResults')
-            @else
-                @include('ManageEvent.Partials.OrdersBlankSlate')
-            @endif
-
-        @endif
     </div>    <!--/End attendees table-->
 @stop
