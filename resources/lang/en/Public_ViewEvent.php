@@ -21,7 +21,7 @@ return [
   'submit' => 'Submit',
   'confirmation_email' => 'and a confirmation email have been sent to you.',
   'copy_buyer' => 'Copy user details to all ticket holders',
-  'currently_not_on_sale' => 'Currently Not On Shelf',
+  'currently_not_on_sale' => 'No longer exist',
   'cvc_number' => 'CVC number',
   'date' => 'Date',
   'download_tickets' => 'Download Tickets',

@@ -3,7 +3,7 @@
 return array (
   //============================== New strings to translate ==============================//
   // Defined in file C:\\wamp\\www\\attendize\\resources\\views\\ManageEvent\\Tickets.blade.php
-  'on_sale' => 'On Shelf',
+  'on_sale' => 'Available',
   //==================================== Translations ====================================//
   'attendee_ref' => 'Attendee Ref.',
   'coupon_codes' => 'Coupon Codes',
@@ -45,7 +45,7 @@ return array (
   'ticket_design' => 'Ticket Design',
   'access_codes' => 'Access Codes',
   'ticket_preview' => 'Ticket Preview',
-  'ticket_sales_paused' => 'Sales Paused',
+  'ticket_sales_paused' => 'Event Paused',
   'ticket_sub_text_color' => 'Ticket Sub Text Color',
   'ticket_text_color' => 'Ticket Text Color',
   'ticket_type' => 'Ticket Type',

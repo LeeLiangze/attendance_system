@@ -49,7 +49,7 @@
         <div class="col-sm-3">
             <div class="stat-box">
                 <h3>{{ $event->orders->count() }}</h3>
-                <span>@lang("Dashboard.orders")</span>
+                <span>attendees</span>
             </div>
         </div>
         <div class="col-sm-3">

@@ -106,9 +106,7 @@
                                 {{{$attendee->ticket->title}}}
                             </td>
                             <td>
-                                <a href="javascript:void(0);" data-modal-id="view-order-{{ $attendee->order->id }}" data-href="{{route('showManageOrder', ['order_id'=>$attendee->order->id])}}" title="View Order #{{$attendee->order->order_reference}}" class="loadModal">
                                     {{$attendee->order->order_reference}}
-                                </a>
                             </td>
                             <td class="text-center">
                                 <div class="btn-group">
