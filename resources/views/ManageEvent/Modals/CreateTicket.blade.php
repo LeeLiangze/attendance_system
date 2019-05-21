@@ -109,14 +109,6 @@
                             </div>
                         </div>
                     </div>
-
-
-                    <div class="col-md-12">
-                        <a href="javascript:void(0);" class="show-more-options">
-                            @lang("ManageEvent.more_options")
-                        </a>
-                    </div>
-
                 </div>
 
             </div> <!-- /end modal body-->

@@ -130,9 +130,6 @@
                         </div>
                     @endif
                 </div>
-                <a href="javascript:void(0);" class="show-more-options">
-                    @lang("ManageEvent.more_options")
-                </a>
             </div> <!-- /end modal body-->
             <div class="modal-footer">
                 {!! Form::button(trans("basic.cancel"), ['class'=>"btn modal-close btn-danger",'data-dismiss'=>'modal']) !!}
