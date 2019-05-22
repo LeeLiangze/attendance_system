@@ -5,7 +5,6 @@ var checkinApp = new Vue({
         searchTerm: '',
         searchResultsCount: 0,
         showScannerModal: false,
-        workingAway: false,
         isInit: false,
         isScanning: false,
         videoElement: $('video#scannerVideo')[0],
@@ -15,7 +14,8 @@ var checkinApp = new Vue({
         canvasContext: $('canvas#QrCanvas')[0].getContext('2d'),
         successBeep: new Audio('/mp3/beep.mp3'),
         scanResult: false,
-        scanResultObject: {}
+        scanResultObject: {},
+        showModal: false,
     },
 
     created: function () {
@@ -35,34 +35,7 @@ var checkinApp = new Vue({
                 console.log('Failed to fetch attendees')
             });
         },
-        toggleCheckin: function (attendee) {
 
-            if(this.workingAway) {
-                return;
-            }
-            this.workingAway = true;
-            var that = this;
-
-
-            var checkinData = {
-                checking: attendee.has_arrived ? 'out' : 'in',
-                attendee_id: attendee.id,
-            };
-
-            this.$http.post(Attendize.checkInRoute, checkinData).then(function (res) {
-                if (res.data.status == 'success' || res.data.status == 'error') {
-                    if (res.data.status == 'error') {
-                        alert(res.data.message);
-                    }
-                    attendee.has_arrived = checkinData.checking == 'out' ? 0 : 1;
-                    that.workingAway = false;
-                } else {
-                    /* @todo handle error*/
-                    that.workingAway = false;
-                }
-            });
-
-        },
         clearSearch: function () {
             this.searchTerm = '';
             this.fetchAttendees();
@@ -107,47 +80,67 @@ var checkinApp = new Vue({
             }
 
             qrcode.callback = this.QrCheckin;
-            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-            // window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
 
-            navigator.getUserMedia({
             // FIX SAFARI CAMERA
-            // if (navigator.mediaDevices === undefined) {
-            //     navigator.mediaDevices = {};
-            // }
-            //
-            // if (navigator.mediaDevices.getUserMedia === undefined) {
-            //     navigator.mediaDevices.getUserMedia = function(constraints) {
-            //         var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-            //
-            //         if (!getUserMedia) {
-            //             return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
-            //         }
-            //
-            //         return new Promise(function(resolve, reject) {
-            //             getUserMedia.call(navigator, constraints, resolve, reject);
-            //         });
-            //     }
-            // }
-            //
-            // navigator.mediaDevices.getUserMedia({
+            if (navigator.mediaDevices === undefined) {
+                navigator.mediaDevices = {};
+            }
+
+            if (navigator.mediaDevices.getUserMedia === undefined) {
+                navigator.mediaDevices.getUserMedia = function (constraints) {
+                    var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+                    if (!getUserMedia) {
+                        return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+                    }
+
+                    return new Promise(function (resolve, reject) {
+                        getUserMedia.call(navigator, constraints, resolve, reject);
+                    });
+                }
+            }
+
+            navigator.mediaDevices.getUserMedia({
                 video: {
-                    facingMode: 'environment'
+                    facingMode: "user" //TODO: Add switch to toggle "user" or "enviroment"
                 },
                 audio: false
-            }, function (stream) {
-
+            }).then(function (stream) {
                 that.stream = stream;
 
                 if (that.videoElement.mozSrcObject !== undefined) { // works on firefox now
                     that.videoElement.mozSrcObject = stream;
-                } else if(window.URL) { // and chrome, but must use https
+                } else if (window.URL) { // and chrome, but must use https
                     that.videoElement.srcObject = stream;
-                };
-
-            }, function () { /* error*/
+                }
+                ;
+            }).catch(function (err) {
+                console.log(err.name + ": " + err.message);
                 alert(lang("checkin_init_error"));
             });
+
+            /* OLD CODES
+                        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+                        navigator.getUserMedia({
+                            video: {
+                                facingMode: 'environment'
+                            },
+                            audio: false
+                        }, function (stream) {
+
+                            that.stream = stream;
+
+                            if (that.videoElement.mozSrcObject !== undefined) { // works on firefox now
+                                that.videoElement.mozSrcObject = stream;
+                            } else if(window.URL) { // and chrome, but must use https
+                                that.videoElement.srcObject = stream;
+                            };
+
+                        }, function () { // error
+                            alert(lang("checkin_init_error"));
+                        });
+             */
 
             this.isInit = true;
             this.QrTimeout = setTimeout(function () {
