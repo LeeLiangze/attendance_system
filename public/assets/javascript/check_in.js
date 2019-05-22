@@ -107,29 +107,30 @@ var checkinApp = new Vue({
             }
 
             qrcode.callback = this.QrCheckin;
-            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
-            navigator.getUserMedia({
+            // navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+            // window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+            //
+            // navigator.getUserMedia({
             // FIX SAFARI CAMERA
-            // if (navigator.mediaDevices === undefined) {
-            //     navigator.mediaDevices = {};
-            // }
-            //
-            // if (navigator.mediaDevices.getUserMedia === undefined) {
-            //     navigator.mediaDevices.getUserMedia = function(constraints) {
-            //         var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-            //
-            //         if (!getUserMedia) {
-            //             return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
-            //         }
-            //
-            //         return new Promise(function(resolve, reject) {
-            //             getUserMedia.call(navigator, constraints, resolve, reject);
-            //         });
-            //     }
-            // }
-            //
-            // navigator.mediaDevices.getUserMedia({
+            if (navigator.mediaDevices === undefined) {
+                navigator.mediaDevices = {};
+            }
+
+            if (navigator.mediaDevices.getUserMedia === undefined) {
+                navigator.mediaDevices.getUserMedia = function(constraints) {
+                    var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia || navigator.msGetUserMedia;
+
+                    if (!getUserMedia) {
+                        return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+                    }
+
+                    return new Promise(function(resolve, reject) {
+                        getUserMedia.call(navigator, constraints, resolve, reject);
+                    });
+                }
+            }
+
+            navigator.mediaDevices.getUserMedia({
                 video: {
                     facingMode: 'environment'
                 },
@@ -142,7 +143,7 @@ var checkinApp = new Vue({
                     that.videoElement.mozSrcObject = stream;
                 } else if(window.URL) { // and chrome, but must use https
                     that.videoElement.srcObject = stream;
-                };
+                }
 
             }, function () { /* error*/
                 alert(lang("checkin_init_error"));
