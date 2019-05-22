@@ -200,7 +200,7 @@ class ArupianController extends MyBaseController
         $rules = [
             'first_name' => 'required',
             'last_name'  => 'required',
-            'email'      => 'required|email',
+            'email'      => 'required|email|unique:arupians,email',
             'gender'     => 'required',
             'group_id'      => 'required',
         ];
