@@ -64,10 +64,10 @@ return array (
   'organiser_tax_value' => 'Tax Value',
   'yes' => 'Yes',
   'no' => 'No',
-  'sales_volume' => 'Sales Volume',
+  'sales_volume' => 'Register Volume',
   'search_placeholder' => 'Search Events..',
   'select_an_organiser' => 'Select An Organiser',
   'select_organiser' => 'Select Organiser',
   'text_color' => 'Text Color',
-  'tickets_sold' => 'Tickets Give Out',
+  'tickets_sold' => 'Tickets Register',
 );

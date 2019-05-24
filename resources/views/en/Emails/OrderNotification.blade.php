@@ -3,7 +3,7 @@
 @section('message_content')
 Hello,<br><br>
 
-You have received a new order for the event <b>{{$order->event->title}}</b>.<br><br>
+You have received a ticket for the event <b>{{$order->event->title}}</b>.<br><br>
 
 @if(!$order->is_payment_received)
     <b>Please note: This order still requires payment.</b>
@@ -11,15 +11,15 @@ You have received a new order for the event <b>{{$order->event->title}}</b>.<br>
 @endif
 
 
-Order Summary:
+Register Summary:
 <br><br>
-Order Reference: <b>{{$order->order_reference}}</b><br>
-Order Name: <b>{{$order->full_name}}</b><br>
-Order Date: <b>{{$order->created_at->format(config('attendize.default_datetime_format'))}}</b><br>
-Order Email: <b>{{$order->email}}</b><br>
+Registration Reference: <b>{{$order->order_reference}}</b><br>
+Registration Name: <b>{{$order->full_name}}</b><br>
+Registration Date: <b>{{$order->created_at->format(config('attendize.default_datetime_format'))}}</b><br>
+Registration Email: <b>{{$order->email}}</b><br>
 
 
-<h3>Order Items</h3>
+<h3>Registration Items</h3>
 <div style="padding:10px; background: #F9F9F9; border: 1px solid #f1f1f1;">
 
     <table style="width:100%; margin:10px;">
@@ -29,9 +29,6 @@ Order Email: <b>{{$order->email}}</b><br>
             </th>
             <th>
                 Quantity
-            </th>
-            <th>
-                Price
             </th>
             <th>
                 Booking Fee
@@ -47,14 +44,6 @@ Order Email: <b>{{$order->email}}</b><br>
             </td>
             <td>
                 {{$order_item->quantity}}
-            </td>
-            <td>
-                @if((int)ceil($order_item->unit_price) == 0)
-                FREE
-                @else
-                {{money($order_item->unit_price, $order->event->currency)}}
-                @endif
-
             </td>
             <td>
                 @if((int)ceil($order_item->unit_price) == 0)
@@ -122,7 +111,7 @@ Order Email: <b>{{$order->email}}</b><br>
 
 
     <br><br>
-    You can manage this order at: {{route('showEventOrders', ['event_id' => $order->event->id, 'q'=>$order->order_reference])}}
+    You can manage this registration at: {{route('showEventOrders', ['event_id' => $order->event->id, 'q'=>$order->order_reference])}}
     <br><br>
 </div>
 <br><br>

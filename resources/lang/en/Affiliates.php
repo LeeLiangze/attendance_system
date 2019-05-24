@@ -10,7 +10,7 @@ return array (
   'affiliate_tracking_text' => 'Keeping track of who is generating sales for your event is extremely easy. Simply create a referral link using the box below and share the link with your affiliates / event promoters.',
   'last_referral' => 'Last Referral',
   'no_affiliate_referrals_yet' => 'No Affiliate Referrals Yet',
-  'sales_volume_generated' => 'Sales Volume Generated',
-  'ticket_sales_generated' => 'Ticket Sales Generated',
+  'sales_volume_generated' => 'Register Volume Generated',
+  'ticket_sales_generated' => 'Ticket register Generated',
   'visits_generated' => 'Visits Generated',
 );

@@ -17,10 +17,10 @@ return array (
     'orders' => 'Orders',
     'quick_links' => 'Quick Links',
     'registrations_by_ticket' => 'Registrations By Ticket',
-    'sales_volume' => 'Sales Volume',
+    'sales_volume' => 'Register Volume',
     'share_event' => 'Share Event',
     'this_event_is_on_now' => 'This event is on now',
-    'ticket_sales_volume' => 'Ticket Sales Volume',
+    'ticket_sales_volume' => 'Ticket Register Volume',
     'tickets_sold' => 'Tickets Give Out',
     'website_embed_code' => 'Website Embed Code',
 );

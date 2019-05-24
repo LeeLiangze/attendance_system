@@ -37,7 +37,7 @@ return array (
   'revenue' => 'Revenue',
   'search_tickets' => 'Search tickets...',
   'show_1d_barcode' => 'Show 1D barcode on tickets',
-  'sold' => 'Sold',
+  'sold' => 'Register',
   'start_date_time' => 'Start Date / Time',
   'this_ticket_is_hidden' => 'This ticket is hidden',
   'ticket_background_color' => 'Ticket Background Color',
