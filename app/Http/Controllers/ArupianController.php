@@ -33,7 +33,6 @@ class ArupianController extends MyBaseController
 
         $event = Event::scope()->find($event_id);
         if ($searchQuery) {
-            dd($searchQuery);
             /*
              * Strip the hash from the start of the search term in case people search for
              * order references like '#EDGC67'
