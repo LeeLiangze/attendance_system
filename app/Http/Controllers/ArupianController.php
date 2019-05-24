@@ -30,7 +30,6 @@ class ArupianController extends MyBaseController
         $searchQuery = $request->get('t');
         $sort_by = (in_array($request->get('sort_by'), $allowed_sorts) ? $request->get('sort_by') : 'created_at');
         $sort_order = $request->get('sort_order') == 'asc' ? 'asc' : 'desc';
-
         $event = Event::scope()->find($event_id);
         if ($searchQuery) {
             /*

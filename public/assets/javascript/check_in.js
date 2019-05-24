@@ -131,7 +131,7 @@ var checkinApp = new Vue({
 
             navigator.mediaDevices.getUserMedia({
                 video: {
-                    facingMode: "environment" //TODO: Add switch to toggle "user" or "enviroment"
+                    facingMode: "environment" //TODO: Add switch to toggle "user" or "environment"
                 },
                 audio: false
             }).then(function (stream) {
