@@ -65,83 +65,83 @@
 
         @if($arupians->count())
 
-            <div class="col-md-12">
+        <div class="col-md-12">
 
-                <!-- START panel -->
-                <div class="panel">
-                    <div class="table-responsive ">
-                        <table class="table">
-                            <thead>
+            <!-- START panel -->
+            <div class="panel">
+                <div class="table-responsive ">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th width="20%">
+                                {!! Html::sortable_link('name', $sort_by, 'first_name', $sort_order, ['t' => $t , 'page' => $arupians->currentPage()]) !!}
+                            </th>
+                            <th width="20%">
+                                {!! Html::sortable_link('email', $sort_by, 'email', $sort_order, ['t' => $t , 'page' => $arupians->currentPage()]) !!}
+                            </th>
+                            <th width="10%">
+                                {!! Html::sortable_link('gender', $sort_by, 'gender', $sort_order, ['t' => $t , 'page' => $arupians->currentPage()]) !!}
+                            </th>
+                            <th width="35%">
+                                {!! Html::sortable_link('group', $sort_by, 'group', $sort_order, ['t' => $t , 'page' => $arupians->currentPage()]) !!}
+                            </th>
+                            <th width="15%">
+                            </th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach($arupians as $arupian)
                             <tr>
-                                <th width="20%">
-                                    {!! Html::sortable_link('name', $sort_by, 'first_name', $sort_order, ['t' => $t , 'page' => $arupians->currentPage()]) !!}
-                                </th>
-                                <th width="20%">
-                                    {!! Html::sortable_link('email', $sort_by, 'email', $sort_order, ['t' => $t , 'page' => $arupians->currentPage()]) !!}
-                                </th>
-                                <th width="10%">
-                                    {!! Html::sortable_link('gender', $sort_by, 'gender', $sort_order, ['t' => $t , 'page' => $arupians->currentPage()]) !!}
-                                </th>
-                                <th width="35%">
-                                    {!! Html::sortable_link('group', $sort_by, 'group', $sort_order, ['t' => $t , 'page' => $arupians->currentPage()]) !!}
-                                </th>
-                                <th width="15%">
-                                </th>
-                                <th></th>
+                                <td>
+                                    {{$arupian->first_name.' '.$arupian->last_name}}
+                                </td>
+                                <td>
+                                    {{$arupian->email}}
+                                </td>
+                                <td>
+                                    {{$arupian->gender}}
+                                </td>
+                                <td>
+                                    {{$arupian->group->name}}
+                                </td>
+                                <td class="text-center">
+                                    <a
+                                            data-modal-id="EditAttendee"
+                                            href="javascript:void(0);"
+                                            data-href="{{route('showEditArupian', ['event_id'=>$event->id, 'arupian_id'=>$arupian->id])}}"
+                                            class="loadModal btn btn-xs btn-primary"
+                                    > @lang("basic.edit")</a>
+
+                                    <a
+                                            data-modal-id="CancelAttendee"
+                                            href="javascript:void(0);"
+                                            data-href="{{route('showCancelArupian', ['event_id'=>$event->id, 'arupian_id'=>$arupian->id])}}"
+                                            class="loadModal btn btn-xs btn-danger"
+                                    > @lang("basic.cancel")</a>
+                                </td>
                             </tr>
-                            </thead>
-                            <tbody>
+                        @endforeach
 
-                            @foreach($arupians as $arupian)
-                                <tr>
-                                    <td>
-                                        {{$arupian->first_name.' '.$arupian->last_name}}
-                                    </td>
-                                    <td>
-                                        {{$arupian->email}}
-                                    </td>
-                                    <td>
-                                        {{$arupian->gender}}
-                                    </td>
-                                    <td>
-                                        {{$arupian->group->name}}
-                                    </td>
-                                    <td class="text-center">
-                                        <a
-                                                data-modal-id="EditAttendee"
-                                                href="javascript:void(0);"
-                                                data-href="{{route('showEditArupian', ['event_id'=>$event->id, 'arupian_id'=>$arupian->id])}}"
-                                                class="loadModal btn btn-xs btn-primary"
-                                        > @lang("basic.edit")</a>
-
-                                        <a
-                                                data-modal-id="CancelAttendee"
-                                                href="javascript:void(0);"
-                                                data-href="{{route('showCancelArupian', ['event_id'=>$event->id, 'arupian_id'=>$arupian->id])}}"
-                                                class="loadModal btn btn-xs btn-danger"
-                                        > @lang("basic.cancel")</a>
-                                    </td>
-                                </tr>
-                            @endforeach
-
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
-
-
-                @else
-
-                    @if(!empty($t))
-                        @include('Shared.Partials.NoSearchResults')
-                    @else
-                        @include('ManageEvent.Partials.ArupiansBlankSlate')
-                    @endif
-
-                @endif
             </div>
-            <div class="col-md-12">
-                {!!$arupians->appends(['sort_by' => $sort_by, 'sort_order' => $sort_order, 't' => $t])->render()!!}
-            </div>
+
+        </div>
+        <div class="col-md-12">
+            {!!$arupians->appends(['sort_by' => $sort_by, 'sort_order' => $sort_order, 't' => $t])->render()!!}
+        </div>
+        @else
+
+            @if($t)
+                @include('Shared.Partials.NoSearchResults')
+            @else
+                @include('ManageEvent.Partials.ArupiansBlankSlate')
+            @endif
+
+        @endif
+
     </div>    <!--/End attendees table-->
 @stop
