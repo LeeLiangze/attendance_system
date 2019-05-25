@@ -32,19 +32,26 @@
                 <button data-modal-id="InviteAttendee" href="javascript:void(0);"
                         data-href="{{route('showInviteAttendee', ['event_id'=>$event->id])}}"
                         class="loadModal btn btn-success" type="button"><i
-                            class="ico-user-plus"></i> @lang("ManageEvent.invite_attendee")</button>
+                            class="ico-user-plus"></i> invite</button>
             </div>
 
             <div class="btn-group btn-group-responsive">
                 <button data-modal-id="ImportAttendees" href="javascript:void(0);"
                         data-href="{{route('showImportAttendee', ['event_id'=>$event->id])}}"
                         class="loadModal btn btn-success" type="button"><i
-                            class="ico-file"></i> @lang("ManageEvent.invite_attendees")</button>
+                            class="ico-file"></i> import</button>
+            </div>
+
+            <div class="btn-group btn-group-responsive">
+                <button data-modal-id="ImportAttendees" href="javascript:void(0);"
+                        data-href="{{route('showNotInBuildingAttendee', ['event_id'=>$event->id])}}"
+                        class="loadModal btn btn-success" type="button"><i
+                            class="ico-file-excel"></i>Not in Building</button>
             </div>
 
             <div class="btn-group btn-group-responsive">
                 <a class="btn btn-success" href="{{route('showPrintAttendees', ['event_id'=>$event->id])}}"
-                   target="_blank"><i class="ico-print"></i> @lang("ManageEvent.print_attendee_list")</a>
+                   target="_blank"><i class="ico-print"></i> print list</a>
             </div>
             <div class="btn-group btn-group-responsive">
                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">

@@ -22,6 +22,7 @@ return array (
   'confirm_cancel' => 'Confirm cancel attendee',
   'confirm_order_cancel' => 'Confirm Order Cancel',
   'create_attendees' => 'Create Attendees',
+    'create_not_in_building' => 'Submit',
   'create_ticket' => 'Create Ticket',
 	'default_currency' => 'Default currency',
   'download_pdf_ticket' => 'Download PDF Ticket',

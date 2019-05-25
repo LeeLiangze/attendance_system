@@ -334,6 +334,7 @@ class ArupianController extends MyBaseController
             $attendee->email = $arupian_email;
             $attendee->gender = $arupian_gender;
             $attendee->group_id = $arupian_group_id;
+            $attendee->not_in_build = 0;
             $attendee->private_reference_number = $arupian_private_reference;
             $attendee->event_id = $event_id;
             $attendee->order_id = $order->id;

@@ -480,6 +480,7 @@ class EventCheckoutController extends Controller
                     $attendee->email = $request_data["ticket_holder_email"][$i][$attendee_details['ticket']['id']];
                     $attendee->gender = $request_data["ticket_holder_gender"][$i][$attendee_details['ticket']['id']];
                     $attendee->group_id = $request_data["ticket_holder_group"][$i][$attendee_details['ticket']['id']];
+                    $attendee->not_in_building = 0;
                     $attendee->event_id = $event_id;
                     $attendee->order_id = $order->id;
                     $attendee->ticket_id = $attendee_details['ticket']['id'];

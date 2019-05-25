@@ -134,6 +134,8 @@ class EventAttendeesController extends MyBaseController
         $attendee_last_name = strip_tags($request->get('last_name'));
         $attendee_email = $request->get('email');
         $email_attendee = $request->get('email_ticket');
+        $gender = $request->get('gender');
+        $group_id = $request->get('group_id');
 
         DB::beginTransaction();
 
@@ -146,6 +148,8 @@ class EventAttendeesController extends MyBaseController
             $order->first_name = $attendee_first_name;
             $order->last_name = $attendee_last_name;
             $order->email = $attendee_email;
+            $order->gender = $gender;
+            $order->group_id = $group_id;
             $order->order_status_id = config('attendize.order_complete');
             $order->amount = $ticket_price;
             $order->account_id = Auth::user()->account_id;
@@ -194,6 +198,9 @@ class EventAttendeesController extends MyBaseController
             $attendee->first_name = $attendee_first_name;
             $attendee->last_name = $attendee_last_name;
             $attendee->email = $attendee_email;
+            $attendee->gender = $gender;
+            $attendee->group_id = $group_id;
+            $attendee->not_in_building = 0;
             $attendee->event_id = $event_id;
             $attendee->order_id = $order->id;
             $attendee->ticket_id = $ticket_id;
@@ -362,6 +369,7 @@ class EventAttendeesController extends MyBaseController
                     $attendee->email = $attendee_email;
                     $attendee->gender = $attendee_gender;
                     $attendee->group_id = $attendee_groupId;
+                    $attendee->not_in_building = 0;
                     $attendee->event_id = $event_id;
                     $attendee->order_id = $order->id;
                     $attendee->ticket_id = $ticket_id;
@@ -381,6 +389,104 @@ class EventAttendeesController extends MyBaseController
         return response()->json([
             'status'      => 'success',
             'id'          => $attendee->id,
+            'redirectUrl' => route('showEventAttendees', [
+                'event_id' => $event_id,
+            ]),
+        ]);
+    }
+
+    /**
+     * Show the 'Not in building Attendee' modal
+     *
+     * @param Request $request
+     * @param $event_id
+     * @return string|View
+     */
+    public function showNotInBuildingAttendee(Request $request, $event_id)
+    {
+        $event = Event::scope()->find($event_id);
+
+        /*
+         * If there are no tickets then we can't create an attendee
+         * @todo This is a bit hackish
+         */
+        if ($event->tickets->count() === 0) {
+            return '<script>showMessage("Show not in building error");</script>';
+        }
+
+        return view('ManageEvent.Modals.ImportNotInBuildingAttendee', [
+            'event'   => $event,
+            'tickets' => $event->tickets()->pluck('title', 'id'),
+        ]);
+    }
+
+
+    /**
+     * Import attendees
+     *
+     * @param Request $request
+     * @param $event_id
+     * @return mixed
+     */
+    public function postNotInBuildingAttendee(Request $request, $event_id)
+    {
+        $rules = [
+            'ticket_id'      => 'required|exists:tickets,id,account_id,' . \Auth::user()->account_id,
+            'attendees_not_list' => 'required|mimes:csv,txt|max:5000|',
+        ];
+
+        $messages = [
+            'ticket_id.exists' => trans("Controllers.ticket_not_exists_error"),
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            return response()->json([
+                'status'   => 'error',
+                'messages' => $validator->messages()->toArray(),
+            ]);
+
+        }
+
+        $ticket_id = $request->get('ticket_id');
+        $num_added = 0;
+        if ($request->file('attendees_not_list')) {
+
+            $the_file = Excel::load($request->file('attendees_not_list')->getRealPath(), function ($reader) {
+            })->get();
+
+            // Loop through
+            foreach ($the_file as $rows) {
+                if (!empty($rows['first_name']) && !empty($rows['last_name']) && !empty($rows['email'])) {
+                    $num_added++;
+                    $attendee_first_name = strip_tags($rows['first_name']);
+                    $attendee_last_name = strip_tags($rows['last_name']);
+                    $attendee_email = $rows['email'];
+                    $attendee_not_in_building = rtrim($rows['not_in_building'], " ");
+
+                    error_log($ticket_id);
+
+                    /**
+                     * Update the attendee
+                     */
+                    if (!empty($attendee_not_in_building)){
+                        $attendee = Attendee::where('first_name', $attendee_first_name)->where('last_name', $attendee_last_name)
+                            ->where('email',$attendee_email);
+                        if ($attendee->exists()) {
+                            $attendee->update(['not_in_building'=>1]);
+                        } else {
+                            continue;
+                        }
+                    }
+
+                }
+            };
+        }
+
+        session()->flash('message', $num_added . ' Attendees Successfully Updated that not in building');
+
+        return response()->json([
+            'status'      => 'success',
             'redirectUrl' => route('showEventAttendees', [
                 'event_id' => $event_id,
             ]),
@@ -590,11 +696,12 @@ class EventAttendeesController extends MyBaseController
                     ->select([
                         'attendees.first_name',
                         'attendees.last_name',
-                        'attendees.email',
+//                        'attendees.email',
 			            'attendees.gender',
                         DB::raw("(CASE WHEN attendees.has_arrived THEN 'YES' ELSE 'NO' END) AS has_arrived"),
 			            'groups.name',
-                        'attendees.arrival_time',
+//                        'attendees.arrival_time',
+                        DB::raw("CASE WHEN attendees.not_in_building THEN 'YES' ELSE 'NO' END AS not_in_building"),
                     ])->get();
 
                 $data = array_map(function($object) {
@@ -605,11 +712,12 @@ class EventAttendeesController extends MyBaseController
                 $sheet->row(1, [
                     'First Name',
                     'Last Name',
-                    'Email',
+//                    'Email',
 		            'Gender',
                     'Evaculate To Assembly Area',
 		            'Remark',
-                    'Arrival Time',
+//                    'Arrival Time',
+                    'Not In Building'
                 ]);
 
                 // Set gray background on first row

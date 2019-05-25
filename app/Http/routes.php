@@ -452,6 +452,16 @@ Route::group(
                 'uses' => 'EventAttendeesController@postImportAttendee',
             ]);
 
+            Route::get('{event_id}/attendees/notinbuilding', [
+                'as'   => 'showNotInBuildingAttendee',
+                'uses' => 'EventAttendeesController@showNotInBuildingAttendee',
+            ]);
+
+            Route::post('{event_id}/attendees/notinbuilding', [
+                'as'   => 'postNotInBuildingAttendee',
+                'uses' => 'EventAttendeesController@postNotInBuildingAttendee',
+            ]);
+
             Route::get('{event_id}/attendees/print', [
                 'as'   => 'showPrintAttendees',
                 'uses' => 'EventAttendeesController@showPrintAttendees',
