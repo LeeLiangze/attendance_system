@@ -49,7 +49,7 @@
     <div class="col-md-3 col-sm-6">
         {!! Form::open(array('url' => route('showArupians', ['event_id'=>$event->id,'sort_by'=>$sort_by]), 'method' => 'get')) !!}
         <div class="input-group">
-            <input name='t' value="{{$t or ''}}" placeholder="Search Arupian" type="text" class="form-control">
+            <input name='t' @if($t===null) value=""@else value="{{$t}}"@endif placeholder="Search Arupian" type="text" class="form-control">
             <span class="input-group-btn">
             <button class="btn btn-default" type="submit"><i class="ico-search"></i></button>
         </span>
@@ -62,11 +62,8 @@
 @section('content')
     <!--Start Attendees table-->
     <div class="row">
-
         @if($arupians->count())
-
         <div class="col-md-12">
-
             <!-- START panel -->
             <div class="panel">
                 <div class="table-responsive ">
@@ -128,20 +125,16 @@
                     </table>
                 </div>
             </div>
-
         </div>
         <div class="col-md-12">
             {!!$arupians->appends(['sort_by' => $sort_by, 'sort_order' => $sort_order, 't' => $t])->render()!!}
         </div>
         @else
-
             @if($t)
                 @include('Shared.Partials.NoSearchResults')
             @else
                 @include('ManageEvent.Partials.ArupiansBlankSlate')
             @endif
-
         @endif
-
-    </div>    <!--/End attendees table-->
+    </div>
 @stop
