@@ -69,6 +69,23 @@
                     </li>
                 </ul>
             </div>
+
+            <div class="btn-group btn-group-responsive">
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                    <i class="ico-users"></i> export bm <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="{{route('showExportBMAttendees', ['event_id'=>$event->id,'export_as'=>'xlsx'])}}">@lang("File_format.Excel_xlsx")</a>
+                    </li>
+                    <li>
+                        <a href="{{route('showExportBMAttendees', ['event_id'=>$event->id,'export_as'=>'xls'])}}">@lang("File_format.Excel_xls")</a>
+                    </li>
+                    <li>
+                        <a href="{{route('showExportBMAttendees', ['event_id'=>$event->id,'export_as'=>'csv'])}}">@lang("File_format.csv")</a>
+                    </li>
+                </ul>
+            </div>
             {{--<div class="btn-group btn-group-responsive">--}}
             {{--<button data-modal-id="MessageAttendees" href="javascript:void(0);" data-href="{{route('showMessageAttendees', ['event_id'=>$event->id])}}" class="loadModal btn btn-success" type="button"><i class="ico-envelope"></i> @lang("ManageEvent.message_attendees")</button>--}}
             {{--</div>--}}

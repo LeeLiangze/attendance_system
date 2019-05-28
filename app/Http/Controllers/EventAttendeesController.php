@@ -463,10 +463,11 @@ class EventAttendeesController extends MyBaseController
                     $attendee_last_name = strip_tags($rows['last_name']);
                     $attendee_email = $rows['email'];
                     $attendee_not_in_building = rtrim($rows['not_in_building'], " ");
+                    $attendee_remain_in_building = rtrim($rows['remain_in_building'], " ");
 
                     error_log($ticket_id);
 
-                    /**
+                    /*
                      * Update the attendee
                      */
                     if (!empty($attendee_not_in_building)){
@@ -474,6 +475,15 @@ class EventAttendeesController extends MyBaseController
                             ->where('email',$attendee_email)->where('event_id',$event_id)->where('ticket_id', $ticket_id);
                         if ($attendee->exists()) {
                             $attendee->update(['not_in_building'=>1]);
+                        } else {
+                            continue;
+                        }
+                    }
+                    if (!empty($attendee_remain_in_building)){
+                        $attendee = Attendee::where('first_name', $attendee_first_name)->where('last_name', $attendee_last_name)
+                            ->where('email',$attendee_email)->where('event_id',$event_id)->where('ticket_id', $ticket_id);
+                        if ($attendee->exists()) {
+                            $attendee->update(['remain_in_building'=>1]);
                         } else {
                             continue;
                         }
@@ -699,9 +709,10 @@ class EventAttendeesController extends MyBaseController
 //                        'attendees.email',
 			            'attendees.gender',
                         DB::raw("(CASE WHEN attendees.has_arrived THEN 'YES' ELSE 'NO' END) AS has_arrived"),
-			            'groups.name',
+                        'groups.name',
 //                        'attendees.arrival_time',
-                        DB::raw("CASE WHEN attendees.not_in_building THEN 'YES' ELSE 'NO' END AS not_in_building"),
+                        DB::raw("CASE WHEN attendees.not_in_building THEN 'YES' ELSE '' END AS not_in_building"),
+                        DB::raw("CASE WHEN attendees.remain_in_building THEN 'YES' ELSE '' END AS remain_in_building"),
                     ])->get();
 
                 $data = array_map(function($object) {
@@ -714,10 +725,74 @@ class EventAttendeesController extends MyBaseController
                     'Last Name',
 //                    'Email',
 		            'Gender',
-                    'Evaculate To Assembly Area',
-		            'Remark',
+                    'Evacuate To AA',
+                    'Remark',
 //                    'Arrival Time',
-                    'Not In Building'
+                    'Not In Unit',
+                    'Remained In Unit'
+                ]);
+
+                // Set gray background on first row
+                $sheet->row(1, function ($row) {
+                    $row->setBackground('#f5f5f5');
+                });
+            });
+        })->export($export_as);
+    }
+
+    /**
+     * Downloads an export of attendees
+     *
+     * @param $event_id
+     * @param string $export_as (xlsx, xls, csv, html)
+     */
+    public function showExportBMAttendees($event_id, $export_as = 'xls')
+    {
+
+        Excel::create('attendees-as-of-' . date('d-m-Y-g.i.a'), function ($excel) use ($event_id) {
+
+            $excel->setTitle('Attendees List');
+
+            // Chain the setters
+            $excel->setCreator(config('attendize.app_name'))
+                ->setCompany(config('attendize.app_name'));
+
+            $excel->sheet('attendees_sheet_1', function ($sheet) use ($event_id) {
+                DB::connection();
+                $data = DB::table('attendees')
+                    ->where('attendees.event_id', '=', $event_id)
+                    ->where('attendees.is_cancelled', '=', 0)
+                    ->where('attendees.account_id', '=', Auth::user()->account_id)
+                    ->join('events', 'events.id', '=', 'attendees.event_id')
+                    ->join('orders', 'orders.id', '=', 'attendees.order_id')
+                    ->join('tickets', 'tickets.id', '=', 'attendees.ticket_id')
+                    ->join('groups', 'groups.id', '=', 'attendees.group_id')
+                    ->select([
+                        'attendees.first_name',
+                        'attendees.last_name',
+//                        'attendees.email',
+                        'attendees.gender',
+                        DB::raw("(CASE WHEN attendees.has_arrived THEN 'YES' ELSE 'NO' END) AS has_arrived"),
+                        'groups.name',
+//                        'attendees.arrival_time',
+                        DB::raw("CASE WHEN attendees.not_in_building THEN 'YES' ELSE '' END AS not_in_building"),
+                        DB::raw("CASE WHEN attendees.remain_in_building THEN 'YES' ELSE '' END AS remain_in_building"),
+                    ])->get();
+
+                $data = array_map(function($object) {
+                    return (array)$object;
+                }, $data->toArray());
+
+                $sheet->fromArray($data);
+                $sheet->row(1, [
+                    'First Name',
+                    'Last Name',
+//                    'Email',
+                    'Gender',
+                    'Evacuate To AA',
+//                    'Arrival Time',
+                    'Not In Unit',
+                    'Remained In Unit'
                 ]);
 
                 // Set gray background on first row

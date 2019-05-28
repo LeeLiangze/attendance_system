@@ -482,6 +482,11 @@ Route::group(
                 'uses' => 'EventAttendeesController@showExportAttendees',
             ]);
 
+            Route::get('{event_id}/attendees/exports/{export_as?}', [
+                'as'   => 'showExportBMAttendees',
+                'uses' => 'EventAttendeesController@showExportBMAttendees',
+            ]);
+
             Route::get('{event_id}/attendees/{attendee_id}/edit', [
                 'as'   => 'showEditAttendee',
                 'uses' => 'EventAttendeesController@showEditAttendee',
