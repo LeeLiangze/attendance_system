@@ -75,7 +75,7 @@
         <tr>
           <td colspan="3" align="center">
             <p style="position: relative; bottom: -2em;"><a onclick="event.preventDefault(); workingAway = false; load();" href="{{ Request::url() }}"><i class="fa fa-refresh"></i> @lang("ManageEvent.scan_another_ticket")</a></p>
-            {{--<div id="result"></div>--}}
+            <div id="result"></div>
           </td>
         </tr>
       </table>
