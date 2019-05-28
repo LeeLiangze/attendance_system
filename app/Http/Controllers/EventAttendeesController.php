@@ -471,7 +471,7 @@ class EventAttendeesController extends MyBaseController
                      */
                     if (!empty($attendee_not_in_building)){
                         $attendee = Attendee::where('first_name', $attendee_first_name)->where('last_name', $attendee_last_name)
-                            ->where('email',$attendee_email);
+                            ->where('email',$attendee_email)->where('event_id',$event_id)->where('ticket_id', $ticket_id);
                         if ($attendee->exists()) {
                             $attendee->update(['not_in_building'=>1]);
                         } else {

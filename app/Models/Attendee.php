@@ -118,7 +118,7 @@ class Attendee extends MyBaseModel
      */
     public function scopeWithoutCancelled($query)
     {
-        return $query->where('attendees.is_cancelled', '=', 0);
+        return $query->where('attendees.is_cancelled', '=', 0)->where('not_in_building', '=', 0);
     }
 
     /**

@@ -41,8 +41,9 @@
                 <div class="attendee_input_wrap">
                     <div class="input-group">
                                   <span class="input-group-btn">
-                                 <button @click="showQrModal" title="Scan QR Code" class="btn btn-default qr_search" type="button"><i
-                                              class="ico-qrcode"></i></button>
+                                 <button @click="showQrModal" title="Scan QR Code" class="btn btn-default qr_search"
+                                         type="button"><i
+                                             class="ico-qrcode"></i></button>
                                 </span>
                         {!!  Form::text('attendees_q', null, [
                     'class' => 'form-control attendee_search',
@@ -85,19 +86,22 @@
 
                     <ul v-if="searchResultsCount > 0" class="list-group" id="attendee_list" v-cloak>
                         <li
-                        @click="toggleCheckin(attendee)"
-                        v-for="attendee in attendees"
-                        class="at list-group-item"
-                        :class = "{arrived : attendee.has_arrived || attendee.has_arrived == '1'}"
+                                @click="toggleCheckin(attendee)"
+                                v-for="attendee in attendees"
+                                class="at list-group-item"
+                                :class="{arrived : attendee.has_arrived || attendee.has_arrived == '1'}"
                         >
-                            @lang("Attendee.name"): <b>@{{ attendee.first_name }} @{{ attendee.last_name }} </b> &nbsp; <span v-if="!attendee.is_payment_received" class="label label-danger">@lang("Order.awaiting_payment")</span>
-                        <br>
-                            @lang("Order.reference"): <b>@{{ attendee.order_reference + '-' + attendee.reference_index }}</b>
-                        <br>
+                            @lang("Attendee.name"): <b>@{{ attendee.first_name }} @{{ attendee.last_name }} </b> &nbsp;
+                            <span v-if="!attendee.is_payment_received"
+                                  class="label label-danger">@lang("Order.awaiting_payment")</span>
+                            <br>
+                            @lang("Order.reference"): <b>@{{ attendee.order_reference + '-' + attendee.reference_index
+                                }}</b>
+                            <br>
                             @lang("Order.ticket"): <b>@{{ attendee.ticket }}</b>
-                        <a href="" class="ci btn btn-successfulQrRead">
-                            <i class="ico-checkmark"></i>
-                        </a>
+                            <a href="" class="ci btn btn-successfulQrRead">
+                                <i class="ico-checkmark"></i>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -120,15 +124,15 @@
 <div role="dialog" id="QrModal" class="scannerModal" v-show="showScannerModal" v-cloak>
     <div class="scannerModalContent">
 
-        <a @click="closeScanner"  class="closeScanner" href="javascript:void(0);">
-        <i class="ico-close"></i>
+        <a @click="closeScanner" class="closeScanner" href="javascript:void(0);">
+            <i class="ico-close"></i>
         </a>
         <video id="scannerVideo" playsinline autoplay></video>
 
         <div class="scannerButtons">
-                    <a @click="initScanner" v-show="!isScanning" href="javascript:void(0);">
-                    @lang("Attendee.scan_another_ticket")
-                    </a>
+            <a @click="initScanner" v-show="!isScanning" href="javascript:void(0);">
+                @lang("Attendee.scan_another_ticket")
+            </a>
         </div>
         <div v-if="isScanning" class="scannerAimer">
         </div>
@@ -142,12 +146,12 @@
                     <span class="message" v-if="scanResultObject.status == 'error'">
                         @{{ scanResultObject.message }}
                     </span>
-                    <span class="message" v-if="scanResultObject.status == 'success'">
+            <span class="message" v-if="scanResultObject.status == 'success'">
                         <span class="uppercase">@lang("Attendee.name")</span>: @{{ scanResultObject.name }}<br>
                         <span class="uppercase">@lang("Attendee.reference")</span>: @{{scanResultObject.reference }}<br>
                         <span class="uppercase">@lang("Attendee.ticket")</span>: @{{scanResultObject.ticket }}
                     </span>
-                    <span v-if="isScanning">
+            <span v-if="isScanning">
                         <div id="scanning-ellipsis">@lang("Attendee.scanning")<span>.</span><span>.</span><span>.</span></div>
                     </span>
         </div>
@@ -157,7 +161,7 @@
 {{-- /END QR Modal--}}
 
 <script>
-Vue.http.headers.common['X-CSRF-TOKEN'] = '{{ csrf_token() }}';
+    Vue.http.headers.common['X-CSRF-TOKEN'] = '{{ csrf_token() }}';
 </script>
 
 @include("Shared.Partials.LangScript")

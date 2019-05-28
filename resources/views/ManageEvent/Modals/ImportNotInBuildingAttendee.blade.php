@@ -24,7 +24,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                 {!! Form::labelWithHelp('attendees_not_list', trans("ManageEvent.import_file"), array('class'=>'control-label required'),
-                                    trans("ManageEvent.attendees_file_requirements")) !!}
+                                    trans("ManageEvent.not_in_building_file_requirements")) !!}
                                 {!!  Form::styledFile('attendees_not_list',1,array('id'=>'input-attendees_not_list'))  !!}
                                 </div>
                             </div>

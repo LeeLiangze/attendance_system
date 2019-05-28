@@ -8,6 +8,7 @@ return array (
   'attendee_cancelled' => 'Cancelled',
   'attendee_cancelled_help' => 'This attendee has been cancelled',
   'attendees_file_requirements' => 'File must be .csv and the first line must contain first_name,last_name,email,gender,group_id',
+    'not_in_building_file_requirements' => 'File must be .csv and the first line must contain first_name,last_name,email,not_in_building',
   'attendize_qrcode_check_in' => 'Arup Attendance System QRCode Check-in',
   'cancel_attendee_title' => 'Cancel :cancel',
   'cancel_description' => 'Cancelling Attendees will remove them from the attendee list.',
