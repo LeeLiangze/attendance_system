@@ -14,23 +14,23 @@ class TicketStatusSeeder extends Seeder
         $ticket_statuses = [
             [
                 'id' => 1,
-                'name' => 'Sold Out',
+                'name' => 'Not Available',
             ],
             [
                 'id' => 2,
-                'name' => 'Sales Have Ended',
+                'name' => 'No Longer Available',
             ],
             [
                 'id' => 3,
-                'name' => 'Not On Sale Yet',
+                'name' => 'Upcoming',
             ],
             [
                 'id' => 4,
-                'name' => 'On Sale',
+                'name' => 'Available',
             ],
             [
                 'id' => 5,
-                'name' => 'On Sale',
+                'name' => 'Available',
             ],
         ];
 
