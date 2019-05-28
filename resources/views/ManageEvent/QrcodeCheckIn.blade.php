@@ -40,18 +40,18 @@
 
     <hr>
 
-    {{--@if(session()->has('success_message'))--}}
-    {{--<div class="container">--}}
-        {{--<div class="row">--}}
-            {{--<div class="col-md-6 col-md-offset-3 col-xs-12">--}}
-                {{--<div class="alert alert-success alert-dismissible text-center" role="alert">--}}
-                      {{--<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>--}}
-                    {{--<p><strong>@lang("basic.success")</strong>: {{ session('success_message') }}</p>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-    {{--</div>--}}
-    {{--@endif--}}
+    @if(session()->has('success_message'))
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 col-xs-12">
+                <div class="alert alert-success alert-dismissible text-center" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <p><strong>@lang("basic.success")</strong>: {{ session('success_message') }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 
     <div id="mainbody">
       <table class="tsel" border="0" width="100%">
@@ -75,7 +75,7 @@
         <tr>
           <td colspan="3" align="center">
             <p style="position: relative; bottom: -2em;"><a onclick="event.preventDefault(); workingAway = false; load();" href="{{ Request::url() }}"><i class="fa fa-refresh"></i> @lang("ManageEvent.scan_another_ticket")</a></p>
-            <div id="result"></div>
+            {{--<div id="result"></div>--}}
           </td>
         </tr>
       </table>
