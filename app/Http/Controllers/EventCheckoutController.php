@@ -489,19 +489,6 @@ class EventCheckoutController extends Controller
                     $attendee->save();
 
                     /**
-                     * Update arupian if not others
-                     */
-                    if ($request_data["ticket_holder_group"][$i][$attendee_details['ticket']['id']] != 1 && empty(Arupian::where('email', $request_data["ticket_holder_email"][$i][$attendee_details['ticket']['id']])->first())) {
-                        $arupian = new Arupian();
-                        $arupian->first_name = strip_tags($request_data["ticket_holder_first_name"][$i][$attendee_details['ticket']['id']]);
-                        $arupian->last_name = strip_tags($request_data["ticket_holder_last_name"][$i][$attendee_details['ticket']['id']]);
-                        $arupian->email = $request_data["ticket_holder_email"][$i][$attendee_details['ticket']['id']];
-                        $arupian->gender = $request_data["ticket_holder_gender"][$i][$attendee_details['ticket']['id']];
-                        $arupian->group_id = $request_data["ticket_holder_group"][$i][$attendee_details['ticket']['id']];
-                        $arupian->save();
-                    }
-
-                    /**
                      * Save the attendee's questions
                      */
                     foreach ($attendee_details['ticket']->questions as $question) {
