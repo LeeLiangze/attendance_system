@@ -5,7 +5,7 @@ Hello,<br><br>
 
 Your register for the event <b>{{$order->event->title}}</b> was successful.<br><br>
 
-Your tickets are attached to this email. You can also view you register form and download your tickets at: {{route('showOrderDetails', ['order_reference' => $order->order_reference])}}
+Your tickets are attached to this email.
 
 @if(!$order->is_payment_received)
 <br><br>
