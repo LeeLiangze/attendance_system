@@ -778,7 +778,7 @@ class EventAttendeesController extends MyBaseController
 //                        'attendees.email',
                         'attendees.gender',
                         DB::raw("(CASE WHEN attendees.has_arrived THEN 'YES' ELSE 'NO' END) AS has_arrived"),
-                        'groups.name',
+//                        'groups.name',
 //                        'attendees.arrival_time',
                         DB::raw("CASE WHEN attendees.not_in_building THEN 'YES' ELSE '' END AS not_in_building"),
                         DB::raw("CASE WHEN attendees.remain_in_building THEN 'YES' ELSE '' END AS remain_in_building"),
