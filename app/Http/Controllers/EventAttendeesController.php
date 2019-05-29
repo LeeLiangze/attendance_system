@@ -16,6 +16,7 @@ use App\Models\OrderItem;
 use App\Services\Order as OrderService;
 use App\Models\Ticket;
 use Auth;
+use function Clue\StreamFilter\fun;
 use Config;
 use DB;
 use Excel;
@@ -714,13 +715,17 @@ class EventAttendeesController extends MyBaseController
                         DB::raw("CASE WHEN attendees.not_in_building THEN 'YES' ELSE '' END AS not_in_building"),
                         DB::raw("CASE WHEN attendees.remain_in_building THEN 'YES' ELSE '' END AS remain_in_building"),
                     ])->get();
+                $counts = $data->count();
+                $evacuated = DB::table('attendees')->where('has_arrived', 1)->count();
 
                 $data = array_map(function($object) {
                     return (array)$object;
                 }, $data->toArray());
 
                 $sheet->fromArray($data);
-                $sheet->row(1, [
+                $sheet->row(1, ['Total number of staff', $counts, '', '','','','']);
+                $sheet->row(2, ['Total number of staff evacuated to assembly area', $evacuated, '', '','','','']);
+                $sheet->row(3, [
                     'First Name',
                     'Last Name',
 //                    'Email',
@@ -733,7 +738,7 @@ class EventAttendeesController extends MyBaseController
                 ]);
 
                 // Set gray background on first row
-                $sheet->row(1, function ($row) {
+                $sheet->row(3, function ($row) {
                     $row->setBackground('#f5f5f5');
                 });
             });
@@ -778,13 +783,17 @@ class EventAttendeesController extends MyBaseController
                         DB::raw("CASE WHEN attendees.not_in_building THEN 'YES' ELSE '' END AS not_in_building"),
                         DB::raw("CASE WHEN attendees.remain_in_building THEN 'YES' ELSE '' END AS remain_in_building"),
                     ])->get();
+                $counts = $data->count();
+                $evacuated = DB::table('attendees')->where('has_arrived', 1)->count();
 
                 $data = array_map(function($object) {
                     return (array)$object;
                 }, $data->toArray());
 
                 $sheet->fromArray($data);
-                $sheet->row(1, [
+                $sheet->row(1, ['Total number of staff', $counts, '', '','','','']);
+                $sheet->row(2, ['Total number of staff evacuated to assembly area', $evacuated, '', '','','','']);
+                $sheet->row(3, [
                     'First Name',
                     'Last Name',
 //                    'Email',
@@ -796,7 +805,7 @@ class EventAttendeesController extends MyBaseController
                 ]);
 
                 // Set gray background on first row
-                $sheet->row(1, function ($row) {
+                $sheet->row(3, function ($row) {
                     $row->setBackground('#f5f5f5');
                 });
             });
