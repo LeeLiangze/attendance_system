@@ -1,15 +1,7 @@
 {
-    "name": "attendize/attendize",
-    "description": "A free and open-source event management and ticket selling application.",
-    "keywords": [
-        "event management",
-        "ticket selling",
-        "tickets",
-        "events"
-    ],
-    "license": "AAL",
+    "name": "attendance_system",
+    "description": "Attendance system",
     "type": "project",
-    "homepage": "https://www.attendize.com",
     "require": {
         "barryvdh/laravel-ide-helper": "~2.4",
         "doctrine/dbal": "~2.8",

@@ -1,11 +1,10 @@
 {
-  "name": "attendize-event-ticketing",
+  "name": "attendance-system",
   "version": "1.0.0",
   "authors": [
     "daveearley <dave@attendize.com>"
   ],
-  "description": "Ticketing Platform",
-  "license": "AAL",
+  "description": "Attendance system",
   "private": false,
   "ignore": [
     "**/.*",
