@@ -141,7 +141,6 @@ class EventAttendeesController extends MyBaseController
         DB::beginTransaction();
 
         try {
-
             /*
              * Create the order
              */
