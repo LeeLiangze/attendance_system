@@ -54,7 +54,7 @@
             {!! DNS1D::getBarcodeSVG(12211221, "C39+", 1, 50) !!}
         </div>
     @endif
-    <div class="foot">
-        @lang("Ticket.footer")
-    </div>
+    {{--<div class="foot">--}}
+        {{--@lang("Ticket.footer")--}}
+    {{--</div>--}}
 </div>

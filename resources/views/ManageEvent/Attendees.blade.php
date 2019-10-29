@@ -46,13 +46,13 @@
                 <button data-modal-id="ImportAttendees" href="javascript:void(0);"
                         data-href="{{route('showNotInBuildingAttendee', ['event_id'=>$event->id])}}"
                         class="loadModal btn btn-success" type="button"><i
-                            class="ico-file-excel"></i>Not in Building</button>
+                            class="ico-file-excel"></i> Not & Remain in Building</button>
             </div>
 
-            <div class="btn-group btn-group-responsive">
-                <a class="btn btn-success" href="{{route('showPrintAttendees', ['event_id'=>$event->id])}}"
-                   target="_blank"><i class="ico-print"></i> print list</a>
-            </div>
+            {{--<div class="btn-group btn-group-responsive">--}}
+                {{--<a class="btn btn-success" href="{{route('showPrintAttendees', ['event_id'=>$event->id])}}"--}}
+                   {{--target="_blank"><i class="ico-print"></i> print list</a>--}}
+            {{--</div>--}}
             <div class="btn-group btn-group-responsive">
                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                     <i class="ico-users"></i> @lang("ManageEvent.export") <span class="caret"></span>
@@ -162,6 +162,9 @@
                                                 <li><a
                                                             href="{{route('showExportTicket', ['event_id'=>$event->id, 'attendee_id'=>$attendee->id])}}"
                                                     >@lang("ManageEvent.download_pdf_ticket")</a></li>
+                                                <li><a
+                                                            href="{{route('showExportQrcode', ['event_id'=>$event->id, 'attendee_id'=>$attendee->id])}}"
+                                                    >Download Qr Code</a></li>
                                             </ul>
                                         </div>
 

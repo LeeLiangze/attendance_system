@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\GenerateQRCode;
 use App\Jobs\GenerateTicket;
 use App\Jobs\SendAttendeeInvite;
 use App\Jobs\SendAttendeeTicket;
@@ -677,6 +678,31 @@ class EventAttendeesController extends MyBaseController
     }
 
     /**
+     * @param $event_id
+     * @param $attendee_id
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function showExportQrcode($event_id, $attendee_id)
+    {
+        $attendee = Attendee::scope()->findOrFail($attendee_id);
+
+        Config::set('queue.default', 'sync');
+        Log::info("*********");
+        Log::info($attendee_id);
+        Log::info($attendee);
+
+
+        $this->dispatch(new GenerateQRCode($attendee->order->order_reference . "-" . $attendee->reference_index));
+
+        $pdf_file_name = $attendee->order->order_reference . '-' . $attendee->reference_index;
+        $pdf_file_path = public_path(config('attendize.event_pdf_qrcode_path')) . '/' . $pdf_file_name;
+        $pdf_file = $pdf_file_path . '.pdf';
+
+
+        return response()->download($pdf_file);
+    }
+
+    /**
      * Downloads an export of attendees
      *
      * @param $event_id
@@ -775,7 +801,7 @@ class EventAttendeesController extends MyBaseController
                         'attendees.first_name',
                         'attendees.last_name',
 //                        'attendees.email',
-                        'attendees.gender',
+//                        'attendees.gender',
                         DB::raw("(CASE WHEN attendees.has_arrived THEN 'YES' ELSE 'NO' END) AS has_arrived"),
 //                        'groups.name',
 //                        'attendees.arrival_time',
@@ -783,20 +809,49 @@ class EventAttendeesController extends MyBaseController
                         DB::raw("CASE WHEN attendees.remain_in_building THEN 'YES' ELSE '' END AS remain_in_building"),
                     ])->get();
                 $counts = $data->count();
-                $evacuated = DB::table('attendees')->where('has_arrived', 1)->count();
+                $evacuated = DB::table('attendees')->where('attendees.event_id', '=', $event_id)
+                    ->where('has_arrived', 1)
+                    ->where('attendees.is_cancelled', '=', 0)
+                    ->where('attendees.account_id', '=', Auth::user()->account_id)->count();
 
                 $data = array_map(function($object) {
                     return (array)$object;
                 }, $data->toArray());
 
-                $sheet->fromArray($data);
-                $sheet->row(1, ['Total number of staff', $counts, '', '','','','']);
-                $sheet->row(2, ['Total number of staff evacuated to assembly area', $evacuated, '', '','','','']);
-                $sheet->row(3, [
+                $sheet->fromArray($data, null, 'A10', false, false);
+                $sheet->row(1, function ($row) {
+                    $row->setFontSize(20);
+                    $row->setFontWeight('bold');
+                });
+                $sheet->row(1, ['FLOOR REGISTER – FRASERS TOWER', '', '', '', '']);
+                $sheet->row(2, function ($row) {
+                    $row->setFontSize(12);
+                    $row->setFontWeight('bold');
+                });
+                $sheet->row(2, ['Fire Warden:', 'Jeanette Gonzaga', '', '', '']);
+                $sheet->row(3, function ($row) {
+                    $row->setFontSize(12);
+                    $row->setFontWeight('bold');
+                });
+                $sheet->row(3, ['Asst. Fire Warden:', 'Rosella Obordo/Sheryl de Mesa/Nur Farah/Mard de Leon/Valentino Bermudez/Jenny Aguilar', '', '', '']);
+                $sheet->row(4, function ($row) {
+                    $row->setFontSize(12);
+                    $row->setFontWeight('bold');
+                });
+                $sheet->row(4, ['Company  Name : ', 'Arup Singapore Pte. Ltd ', '', '', '']);
+                $sheet->row(5, function ($row) {
+                    $row->setFontSize(12);
+                    $row->setFontWeight('bold');
+                });
+                $sheet->row(5, ['Tenant Unit No:', '5 & 6', '', '', '']);
+                $sheet->row(6, ['', '', '', '', '']);
+                $sheet->row(7, ['Total number of staff', $counts, '', '','']);
+                $sheet->row(8, ['Total number of staff evacuated to assembly area', $evacuated, '', '','',]);
+                $sheet->row(9, [
                     'First Name',
                     'Last Name',
 //                    'Email',
-                    'Gender',
+//                    'Gender',
                     'Evacuate To AA',
 //                    'Arrival Time',
                     'Not In Unit',
@@ -804,7 +859,7 @@ class EventAttendeesController extends MyBaseController
                 ]);
 
                 // Set gray background on first row
-                $sheet->row(3, function ($row) {
+                $sheet->row(9, function ($row) {
                     $row->setBackground('#f5f5f5');
                 });
             });

@@ -29,6 +29,7 @@ return [
     'event_images_path'      => 'user_content/event_images',
     'organiser_images_path'  => 'user_content/organiser_images',
     'event_pdf_tickets_path' => 'user_content/pdf_tickets',
+    'event_pdf_qrcode_path' => 'user_content/pdf_qrcode',
     'event_bg_images'        => 'assets/images/public/EventPage/backgrounds',
 
     'fallback_organiser_logo_url' => '/assets/images/logo-dark.png',
