@@ -691,7 +691,6 @@ class EventAttendeesController extends MyBaseController
         Log::info($attendee_id);
         Log::info($attendee);
 
-
         $this->dispatch(new GenerateQRCode($attendee->order->order_reference . "-" . $attendee->reference_index));
 
         $pdf_file_name = $attendee->order->order_reference . '-' . $attendee->reference_index;
