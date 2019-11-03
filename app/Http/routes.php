@@ -1,5 +1,6 @@
 <?php
 
+Route::get('ads/login','AdsController@login');
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
@@ -550,6 +551,10 @@ Route::group(
             Route::post('{event_id}/arupians/send', [
                 'as'   => 'postSendArupian',
                 'uses' => 'ArupianController@postSendArupian',
+            ]);
+            Route::post('{event_id}/arupians/download', [
+                'as'   => 'downloadQRCode',
+                'uses' => 'ArupianController@downloadQRCode',
             ]);
 
             /*

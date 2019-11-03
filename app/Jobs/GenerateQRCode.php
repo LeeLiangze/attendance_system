@@ -40,6 +40,7 @@ class GenerateQRCode extends Job implements ShouldQueue
     public function handle()
     {
 
+        // TODO: change filename to id_groupName_staffid.pdf
         $file_name = $this->reference;
         $file_path = public_path(config('attendize.event_pdf_qrcode_path')) . '/' . $file_name;
         $file_with_ext = $file_path . ".pdf";

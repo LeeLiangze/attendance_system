@@ -44,7 +44,7 @@ class Arupian extends MyBaseModel
             while (Arupian::where('reference', $token)->first());
 
             do {
-                $token_private = Str::Random(15);
+                $token_private = $arupian->staff_id . "." . explode("@", $arupian->email)[0];
             }
             while (Arupian::where('private_reference', $token_private)->first());
             $arupian->reference = $token;

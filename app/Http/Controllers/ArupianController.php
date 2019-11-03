@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\GenerateQRCode;
 use App\Jobs\SendAttendeeInvite;
 use App\Models\Arupian;
 use App\Models\Attendee;
@@ -356,6 +357,15 @@ class ArupianController extends MyBaseController
             'event_id' => $event_id,
             ]),
         ]);
+    }
+
+    public function downloadQRCode($event_id)
+    {
+        $arupians = Arupian::all();
+        foreach ($arupians as $arupian) {
+            $reference = $arupian['reference'];
+            $this->dispatch(new GenerateQRCode($reference));
+        }
     }
 
 }
