@@ -162,9 +162,6 @@
                                                 <li><a
                                                             href="{{route('showExportTicket', ['event_id'=>$event->id, 'attendee_id'=>$attendee->id])}}"
                                                     >@lang("ManageEvent.download_pdf_ticket")</a></li>
-                                                <li><a
-                                                            href="{{route('showExportQrcode', ['event_id'=>$event->id, 'attendee_id'=>$attendee->id])}}"
-                                                    >Download Qr Code</a></li>
                                             </ul>
                                         </div>
 

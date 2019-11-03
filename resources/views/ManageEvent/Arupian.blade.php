@@ -45,11 +45,14 @@
             </div>
 
             <div class="btn-group btn-group-responsive">
-                <button data-modal-id="DownloadQR" href="javascript:void(0);"
-                        data-href="{{route('downloadQRCode', ['event_id'=>$event->id])}}"
-                        class="loadModal btn btn-success" type="button"><i class="ico-users"></i>Download QR Code
-                    arupians
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                    <i class="ico-users"></i> QR Code <span class="caret"></span>
                 </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="{{route('downloadQRCode')}}">Download QR Code</a>
+                    </li>
+                </ul>
             </div>
         </div>
         <!--/ Toolbar -->

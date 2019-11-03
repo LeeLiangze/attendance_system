@@ -15,6 +15,7 @@ use App\Models\Ticket;
 use function Couchbase\defaultDecoder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Validator;
 
 class ArupianController extends MyBaseController
@@ -359,13 +360,24 @@ class ArupianController extends MyBaseController
         ]);
     }
 
-    public function downloadQRCode($event_id)
+    public function downloadQRCode()
     {
+        File::deleteDirectory(public_path(config('attendize.event_pdf_qrcode_path')));
         $arupians = Arupian::all();
         foreach ($arupians as $arupian) {
-            $reference = $arupian['reference'];
-            $this->dispatch(new GenerateQRCode($reference));
+            $reference = $arupian['private_reference'];
+            $id = $arupian['id'];
+            $group_name = Group::where('id', $arupian['group_id'])->first()->name;
+            $staff_id = $arupian['staff_id'];
+            $this->dispatch(new GenerateQRCode($reference, $id, $group_name, $staff_id));
         }
+        $zip_file = 'qrcode.zip';
+        $zip = new \ZipArchive();
+        $zip->open($zip_file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        $zip->addFile(public_path(config('attendize.event_pdf_qrcode_path')));
+        $zip->close();
+
+        return response()->download($zip_file);
     }
 
 }

@@ -473,11 +473,6 @@ Route::group(
                 'uses' => 'EventAttendeesController@showExportTicket',
             ]);
 
-            Route::get('{event_id}/attendees/{attendee_id}/export_qrcode', [
-                'as'   => 'showExportQrcode',
-                'uses' => 'EventAttendeesController@showExportQrcode',
-            ]);
-
             Route::get('{event_id}/attendees/{attendee_id}/ticket', [
                 'as'   => 'showAttendeeTicket',
                 'uses' => 'EventAttendeesController@showAttendeeTicket',
@@ -552,7 +547,7 @@ Route::group(
                 'as'   => 'postSendArupian',
                 'uses' => 'ArupianController@postSendArupian',
             ]);
-            Route::post('{event_id}/arupians/download', [
+            Route::get('arupians/download', [
                 'as'   => 'downloadQRCode',
                 'uses' => 'ArupianController@downloadQRCode',
             ]);

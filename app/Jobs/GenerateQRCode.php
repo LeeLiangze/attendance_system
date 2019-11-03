@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\Order;
+use App\Models\Arupian;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -14,22 +14,22 @@ class GenerateQRCode extends Job implements ShouldQueue
     use InteractsWithQueue, SerializesModels;
 
     protected $reference;
-    protected $order_reference;
-    protected $attendee_reference_index;
+    protected $id;
+    protected $group_name;
+    protected $staff_id;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($reference)
+    public function __construct($reference, $id, $group_name, $staff_id)
     {
         Log::info("Generating qrcode: #" . $reference);
         $this->reference = $reference;
-        $this->order_reference = explode("-", $reference)[0];
-        if (strpos($reference, "-")) {
-            $this->attendee_reference_index = explode("-", $reference)[1];
-        }
+        $this->id = $id;
+        $this->group_name = $group_name;
+        $this->staff_id = $staff_id;
     }
 
     /**
@@ -39,31 +39,12 @@ class GenerateQRCode extends Job implements ShouldQueue
      */
     public function handle()
     {
-
-        // TODO: change filename to id_groupName_staffid.pdf
-        $file_name = $this->reference;
+        $file_name = $this->id . "_" . $this->group_name . "_" . $this->staff_id;
         $file_path = public_path(config('attendize.event_pdf_qrcode_path')) . '/' . $file_name;
-        $file_with_ext = $file_path . ".pdf";
 
-        if (file_exists($file_with_ext)) {
-            Log::info("Use qrcode from cache: " . $file_with_ext);
-            return;
-        }
-
-        $order = Order::where('order_reference', $this->order_reference)->first();
-        Log::info($order);
-        $event = $order->event;
-
-        $query = $order->attendees();
-        if ($this->isAttendeeTicket()) {
-            $query = $query->where('reference_index', '=', $this->attendee_reference_index);
-        }
-        $attendees = $query->get();
-
+        $arupian = Arupian::find($this->id);
         $data = [
-            'order'     => $order,
-            'event'     => $event,
-            'attendees' => $attendees,
+            'arupian' => $arupian,
         ];
         try {
             PDF::setOutputMode('F'); // force to file

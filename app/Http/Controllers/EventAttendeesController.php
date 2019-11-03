@@ -678,30 +678,6 @@ class EventAttendeesController extends MyBaseController
     }
 
     /**
-     * @param $event_id
-     * @param $attendee_id
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
-    public function showExportQrcode($event_id, $attendee_id)
-    {
-        $attendee = Attendee::scope()->findOrFail($attendee_id);
-
-        Config::set('queue.default', 'sync');
-        Log::info("*********");
-        Log::info($attendee_id);
-        Log::info($attendee);
-
-        $this->dispatch(new GenerateQRCode($attendee->order->order_reference . "-" . $attendee->reference_index));
-
-        $pdf_file_name = $attendee->order->order_reference . '-' . $attendee->reference_index;
-        $pdf_file_path = public_path(config('attendize.event_pdf_qrcode_path')) . '/' . $pdf_file_name;
-        $pdf_file = $pdf_file_path . '.pdf';
-
-
-        return response()->download($pdf_file);
-    }
-
-    /**
      * Downloads an export of attendees
      *
      * @param $event_id
