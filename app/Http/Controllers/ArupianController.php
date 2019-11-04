@@ -371,10 +371,18 @@ class ArupianController extends MyBaseController
             $staff_id = $arupian['staff_id'];
             $this->dispatch(new GenerateQRCode($reference, $id, $group_name, $staff_id));
         }
+        $files = public_path(config('attendize.event_pdf_qrcode_path')) . '/*.pdf';
         $zip_file = public_path('user_content/qrcode.zip');
         $zip = new \ZipArchive();
         if($zip->open($zip_file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE)) {
-            $zip->addFile(public_path(config('attendize.event_pdf_qrcode_path')));
+            foreach ($files as $file) {
+                if ($zip->addFile($file, basename($file))) {
+                    // do something here if addFile succeeded, otherwise this statement is unnecessary and can be ignored.
+                    continue;
+                } else {
+                    throw new Exception("file `{$file}` could not be added to the zip file: " . $zip->getStatusString());
+                }
+            }
             if ($zip->close()) {
                 return response()->download($zip_file, basename($zip_file))->deleteFileAfterSend(true);
             } else {
@@ -384,8 +392,6 @@ class ArupianController extends MyBaseController
         else {
             throw new Exception("zip file could not be created: " . $zip->getStatusString());
         }
-
-
 
     }
 
