@@ -362,7 +362,7 @@ class ArupianController extends MyBaseController
 
     public function downloadQRCode()
     {
-        File::deleteDirectory(public_path(config('attendize.event_pdf_qrcode_path')));
+//        File::deleteDirectory(public_path(config('attendize.event_pdf_qrcode_path')));
         $arupians = Arupian::all();
         foreach ($arupians as $arupian) {
             $reference = $arupian['private_reference'];
