@@ -5,7 +5,7 @@
 </head>
 <body>
     <div style="position:absolute;top:0.10in;left:0.08in;width:0.86in;height:0.86in">
-        {!! DNS2D::getBarcodeSVG($arupian->private_reference, "QRCODE", 3.5, 3.5) !!}
+        {!! DNS2D::getBarcodeSVG($arupian->private_reference, "QRCODE", 3.4, 3.4) !!}
     </div>
     {{--<img style="position:absolute;top:0.10in;left:0.08in;width:0.86in;height:0.86in" src="ci_1.png"/>--}}
     <div style="position:absolute;top:1.04in;left:0.12in;width:0.82in;line-height:0.12in;"><span
