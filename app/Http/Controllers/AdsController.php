@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\View;
 
-class AdsController extends Controller
+class AdsController extends MyBaseController
 {
     private $view_path;
     private $ctrl_url;
