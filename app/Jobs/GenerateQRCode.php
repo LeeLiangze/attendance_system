@@ -41,12 +41,12 @@ class GenerateQRCode extends Job implements ShouldQueue
     {
         $file_name = $this->id . "_" . $this->group_name . "_" . $this->staff_id;
         $file_path = public_path(config('attendize.event_pdf_qrcode_path')) . '/' . $file_name;
-//        $file_with_ext = $file_path . ".pdf";
-//
-//        if (file_exists($file_with_ext)) {
-//            Log::info("Use ticket from cache: " . $file_with_ext);
-//            return;
-//        }
+        $file_with_ext = $file_path . ".pdf";
+
+        if (file_exists($file_with_ext)) {
+            Log::info("Use ticket from cache: " . $file_with_ext);
+            return;
+        }
 
         $arupian = Arupian::find($this->id);
         $data = [

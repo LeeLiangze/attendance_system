@@ -371,7 +371,7 @@ class ArupianController extends MyBaseController
             $staff_id = $arupian['staff_id'];
             $this->dispatch(new GenerateQRCode($reference, $id, $group_name, $staff_id));
         }
-        $zip_file = 'qrcode.zip';
+        $zip_file = public_path('user_content') . '/qrcode.zip';
         $zip = new \ZipArchive();
         $zip->open($zip_file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
         $zip->addFile(public_path(config('attendize.event_pdf_qrcode_path')));
