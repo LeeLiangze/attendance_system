@@ -97,7 +97,6 @@ class ArupianController extends MyBaseController
             'first_name' => 'required',
             'last_name'  => 'required',
             'email'      => 'required|email',
-            'gender'     => 'required',
             'group_id'      => 'required',
         ];
 
@@ -201,7 +200,6 @@ class ArupianController extends MyBaseController
             'first_name' => 'required',
             'last_name'  => 'required',
             'email'      => 'required|email|unique:arupians,email',
-            'gender'     => 'required',
             'group_id'      => 'required',
         ];
 
@@ -224,7 +222,6 @@ class ArupianController extends MyBaseController
         $arupian->first_name = $request->get('first_name');
         $arupian->last_name = $request->get('last_name');
         $arupian->email = $request->get('email');
-        $arupian->gender = $request->get('gender');
         $arupian->group_id = $request->get('group_id');
         $arupian->save();
 
@@ -277,7 +274,6 @@ class ArupianController extends MyBaseController
             $arupian_first_name = $arupian['first_name'];
             $arupian_last_name = $arupian['last_name'];
             $arupian_email = $arupian['email'];
-            $arupian_gender = $arupian['gender'];
             $arupian_group_id = $arupian['group_id'];
             $arupian_reference = $arupian['reference'];
             $arupian_private_reference = $arupian['private_reference'];
@@ -291,7 +287,6 @@ class ArupianController extends MyBaseController
             $order->first_name = $arupian_first_name;
             $order->last_name = $arupian_last_name;
             $order->email = $arupian_email;
-            $order->gender = $arupian_gender;
             $order->group_id = $arupian_group_id;
             $order->order_reference = $arupian_reference;
             $order->order_status_id = 1;
@@ -334,7 +329,6 @@ class ArupianController extends MyBaseController
             $attendee->first_name = $arupian_first_name;
             $attendee->last_name = $arupian_last_name;
             $attendee->email = $arupian_email;
-            $attendee->gender = $arupian_gender;
             $attendee->group_id = $arupian_group_id;
             $attendee->private_reference_number = $arupian_private_reference;
             $attendee->event_id = $event_id;
