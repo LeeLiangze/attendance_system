@@ -87,9 +87,9 @@
                             <th width="20%">
                                 {!! Html::sortable_link('email', $sort_by, 'email', $sort_order, ['t' => $t , 'page' => $arupians->currentPage()]) !!}
                             </th>
-                            <th width="10%">
-                                {!! Html::sortable_link('gender', $sort_by, 'gender', $sort_order, ['t' => $t , 'page' => $arupians->currentPage()]) !!}
-                            </th>
+                            {{--<th width="10%">--}}
+                                {{--{!! Html::sortable_link('gender', $sort_by, 'gender', $sort_order, ['t' => $t , 'page' => $arupians->currentPage()]) !!}--}}
+                            {{--</th>--}}
                             <th width="35%">
                                 {!! Html::sortable_link('group', $sort_by, 'group', $sort_order, ['t' => $t , 'page' => $arupians->currentPage()]) !!}
                             </th>
@@ -108,9 +108,9 @@
                                 <td>
                                     {{$arupian->email}}
                                 </td>
-                                <td>
-                                    {{$arupian->gender}}
-                                </td>
+                                {{--<td>--}}
+                                    {{--{{$arupian->gender}}--}}
+                                {{--</td>--}}
                                 <td>
                                     {{$arupian->group->name}}
                                 </td>

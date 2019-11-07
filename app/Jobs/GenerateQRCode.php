@@ -39,7 +39,8 @@ class GenerateQRCode extends Job implements ShouldQueue
      */
     public function handle()
     {
-        $file_name = $this->id . "_" . $this->group_name . "_" . $this->staff_id;
+        $file_name = explode(" ", $this->group_name, 2)[1] . "_" . $this->staff_id;
+        dd($file_name);
         $file_path = public_path(config('attendize.event_pdf_qrcode_path')) . '/' . $file_name;
         $file_with_ext = $file_path . ".pdf";
 
