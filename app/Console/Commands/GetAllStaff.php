@@ -122,44 +122,44 @@ class GetAllStaff extends Command
                 }
             }
         }
-//        Arupian::insert([
-//            [
-//                'first_name' => 'Cleaner1',
-//                'last_name' => 'Pantry1',
-//                'staff_id' => 999999,
-//                'off_location' => 'Singapore Office',
-//                'location' => 'Australasia Region',
-//                'group_id' => 27,
-//                'email' => 'cleaner1@pantry1.com'
-//            ],
-//            [
-//                'first_name' => 'Cleaner2',
-//                'last_name' => 'Pantry2',
-//                'staff_id' => 999998,
-//                'off_location' => 'Singapore Office',
-//                'location' => 'Australasia Region',
-//                'group_id' => 27,
-//                'email' => 'cleaner2@pantry2.com'
-//            ],
-//            [
-//                'first_name' => 'Cleaner3',
-//                'last_name' => 'Pantry3',
-//                'staff_id' => 999997,
-//                'off_location' => 'Singapore Office',
-//                'location' => 'Australasia Region',
-//                'group_id' => 27,
-//                'email' => 'cleaner3@pantry3.com'
-//            ],
-//            [
-//                'first_name' => 'Cleaner4',
-//                'last_name' => 'Pantry4',
-//                'staff_id' => 999996,
-//                'off_location' => 'Singapore Office',
-//                'location' => 'Australasia Region',
-//                'group_id' => 27,
-//                'email' => 'cleaner4@pantry4.com'
-//            ],
-//        ]);
+        Arupian::insert([
+            [
+                'first_name' => 'Cleaner1',
+                'last_name' => 'Pantry1',
+                'staff_id' => '999999',
+                'off_location' => 'Singapore Office',
+                'location' => 'Australasia Region',
+                'group_id' => 27,
+                'email' => 'cleaner1@pantry1.com'
+            ],
+            [
+                'first_name' => 'Cleaner2',
+                'last_name' => 'Pantry2',
+                'staff_id' => '999998',
+                'off_location' => 'Singapore Office',
+                'location' => 'Australasia Region',
+                'group_id' => 27,
+                'email' => 'cleaner2@pantry2.com'
+            ],
+            [
+                'first_name' => 'Cleaner3',
+                'last_name' => 'Pantry3',
+                'staff_id' => '999997',
+                'off_location' => 'Singapore Office',
+                'location' => 'Australasia Region',
+                'group_id' => 27,
+                'email' => 'cleaner3@pantry3.com'
+            ],
+            [
+                'first_name' => 'Cleaner4',
+                'last_name' => 'Pantry4',
+                'staff_id' => '999996',
+                'off_location' => 'Singapore Office',
+                'location' => 'Australasia Region',
+                'group_id' => 27,
+                'email' => 'cleaner4@pantry4.com'
+            ],
+        ]);
 
     }
 }
