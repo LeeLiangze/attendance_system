@@ -6,6 +6,7 @@ use App\Models\Arupian;
 use App\Models\Group;
 use App\TokenStore\TokenCache;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class GetAllStaff extends Command
 {
@@ -126,39 +127,47 @@ class GetAllStaff extends Command
             [
                 'first_name' => 'Cleaner1',
                 'last_name' => 'Pantry1',
-                'staff_id' => '999999',
+                'staff_id' => 999999,
                 'off_location' => 'Singapore Office',
                 'location' => 'Australasia Region',
                 'group_id' => 27,
-                'email' => 'cleaner1@pantry1.com'
+                'email' => 'cleaner1@pantry1.com',
+                'reference' => Str::Random(5) . date('jn'),
+                'private_reference' => sprintf("%06d",999999)
             ],
             [
                 'first_name' => 'Cleaner2',
                 'last_name' => 'Pantry2',
-                'staff_id' => '999998',
+                'staff_id' => 999998,
                 'off_location' => 'Singapore Office',
                 'location' => 'Australasia Region',
                 'group_id' => 27,
-                'email' => 'cleaner2@pantry2.com'
+                'email' => 'cleaner2@pantry2.com',
+                'reference' => Str::Random(5) . date('jn'),
+                'private_reference' => sprintf("%06d",999998)
             ],
             [
                 'first_name' => 'Cleaner3',
                 'last_name' => 'Pantry3',
-                'staff_id' => '999997',
+                'staff_id' => 999997,
                 'off_location' => 'Singapore Office',
                 'location' => 'Australasia Region',
                 'group_id' => 27,
-                'email' => 'cleaner3@pantry3.com'
+                'email' => 'cleaner3@pantry3.com',
+                'reference' => Str::Random(5) . date('jn'),
+                'private_reference' => sprintf("%06d",999997)
             ],
             [
                 'first_name' => 'Cleaner4',
                 'last_name' => 'Pantry4',
-                'staff_id' => '999996',
+                'staff_id' => 999996,
                 'off_location' => 'Singapore Office',
                 'location' => 'Australasia Region',
                 'group_id' => 27,
-                'email' => 'cleaner4@pantry4.com'
-            ],
+                'email' => 'cleaner4@pantry4.com',
+                'reference' => Str::Random(5) . date('jn'),
+                'private_reference' => sprintf("%06d",999996)
+            ]
         ]);
 
     }
