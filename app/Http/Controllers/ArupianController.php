@@ -80,7 +80,7 @@ class ArupianController extends MyBaseController
             'groups'  => $groups,
             'event'   => $event_id
         ];
-        return view('ManageEvent.modals.EditArupian', $data);
+        return view('ManageEvent.Modals.EditArupian', $data);
     }
 
     /**

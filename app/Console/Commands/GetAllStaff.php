@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Arupian;
 use App\Models\Group;
 use App\TokenStore\TokenCache;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
@@ -123,6 +124,7 @@ class GetAllStaff extends Command
                 }
             }
         }
+        $now = Carbon::now()->toDateTimeString();
         Arupian::insert([
             [
                 'first_name' => 'Cleaner1',
@@ -133,7 +135,9 @@ class GetAllStaff extends Command
                 'group_id' => 27,
                 'email' => 'cleaner1@pantry1.com',
                 'reference' => Str::Random(5) . date('jn'),
-                'private_reference' => sprintf("%06d",999999)
+                'private_reference' => sprintf("%06d",999999),
+                'created_at' => $now,
+                'updated_at' => $now
             ],
             [
                 'first_name' => 'Cleaner2',
@@ -144,7 +148,9 @@ class GetAllStaff extends Command
                 'group_id' => 27,
                 'email' => 'cleaner2@pantry2.com',
                 'reference' => Str::Random(5) . date('jn'),
-                'private_reference' => sprintf("%06d",999998)
+                'private_reference' => sprintf("%06d",999998),
+                'created_at' => $now,
+                'updated_at' => $now
             ],
             [
                 'first_name' => 'Cleaner3',
@@ -155,7 +161,9 @@ class GetAllStaff extends Command
                 'group_id' => 27,
                 'email' => 'cleaner3@pantry3.com',
                 'reference' => Str::Random(5) . date('jn'),
-                'private_reference' => sprintf("%06d",999997)
+                'private_reference' => sprintf("%06d",999997),
+                'created_at' => $now,
+                'updated_at' => $now
             ],
             [
                 'first_name' => 'Cleaner4',
@@ -166,7 +174,9 @@ class GetAllStaff extends Command
                 'group_id' => 27,
                 'email' => 'cleaner4@pantry4.com',
                 'reference' => Str::Random(5) . date('jn'),
-                'private_reference' => sprintf("%06d",999996)
+                'private_reference' => sprintf("%06d",999996),
+                'created_at' => $now,
+                'updated_at' => $now
             ]
         ]);
 
