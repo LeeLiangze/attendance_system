@@ -177,8 +177,26 @@ class GetAllStaff extends Command
                 'private_reference' => sprintf("%06d",'999996'),
                 'created_at' => $now,
                 'updated_at' => $now
-            ]
+            ],
         ]);
+        $vistors = array();
+        for ($x = 1; $x <= 30; $x++) {
+            $vistors[] = array(
+                'first_name' => 'Visitor' . (string)$x,
+                'last_name' => 'Arup' . (string)$x,
+                'staff_id' => 999996 - $x,
+                'off_location' => 'Singapore Office',
+                'location' => 'Australasia Region',
+                'group_id' => 37,
+                'email' => 'cleaner4@pantry4.com',
+                'reference' => Str::Random(5) . date('jn'),
+                'private_reference' => sprintf("%06d",(string)999996 - $x),
+                'created_at' => $now,
+                'updated_at' => $now
+            );
+        }
+        dd($vistors);
+        Arupian::insert($vistors);
 
     }
 }
