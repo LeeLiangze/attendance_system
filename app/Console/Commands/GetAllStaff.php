@@ -188,14 +188,13 @@ class GetAllStaff extends Command
                 'off_location' => 'Singapore Office',
                 'location' => 'Australasia Region',
                 'group_id' => 37,
-                'email' => 'cleaner4@pantry4.com',
+                'email' => 'cleaner' . (string)$x . '@pantry' . (string)$x . '.com',
                 'reference' => Str::Random(5) . date('jn'),
                 'private_reference' => sprintf("%06d",(string)999996 - $x),
                 'created_at' => $now,
                 'updated_at' => $now
             );
         }
-        dd($vistors);
         Arupian::insert($vistors);
 
     }
